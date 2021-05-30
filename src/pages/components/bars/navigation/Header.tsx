@@ -34,7 +34,7 @@ const Header: React.FC = () => {
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
-            <SignInButton />
+            <JoinButton />
           </Nav.Link>
         </LinkContainer>
       </Nav>
@@ -46,20 +46,17 @@ const Header: React.FC = () => {
   </div>;
 };
 
-const SignInButton: React.FC = () => {
-  //todo: refac - use constants
+const JoinButton: React.FC = () => {
   //todo: refac - 클릭했을 시 글씨 색상 주황색으로 바꾸기.
-  const backgroundColor: string = "#802578";
-  const color: string = "white";
   return <>
     <style type="text/css"> {`
-            .btn-sign {
-              background-color: ${backgroundColor};
-              color: ${color};
+            .btn-join {
+              background-color: ${Colors.theme.main.orgasme};
+              color: ${Colors.theme.text.button.default};
             }
           `}
     </style>
-    <Button variant={"sign"}>Sign</Button>
+    <Button variant={"join"}>Join</Button>
   </>
 };
 

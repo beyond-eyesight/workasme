@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
+import {Button, Form} from "react-bootstrap";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -16,22 +17,32 @@ const SignInSection: React.FC = () => {
 
 const SignInForm: React.FC = () => {
   return <Container>
-    <EmailInput />
-    <PasswordInput />
-    <ContinueWithGoolgeButton />
+    <Form>
+      <EmailInput />
+      <PasswordInput />
+      <SignInButton />
+    </Form>
   </Container>;
 };
 
 const EmailInput: React.FC = () => {
-  return <div/>;
+  return <Form.Group controlId="formBasicEmail">
+    <Form.Label>Email</Form.Label>
+    <Form.Control type="email" />
+  </Form.Group>;
 };
 
 const PasswordInput: React.FC = () => {
-  return <div/>;
+  return <Form.Group controlId="formBasicPassword">
+    <Form.Label>Password</Form.Label>
+    <Form.Control type="password" />
+  </Form.Group>;
 };
 
-const ContinueWithGoolgeButton: React.FC = () => {
-  return <div/>;
+const SignInButton: React.FC = () => {
+  return <Button variant="primary" type="submit">
+    Sign In
+  </Button>;
 };
 
 const Title: React.FC = () => {

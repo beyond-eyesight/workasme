@@ -5,15 +5,7 @@ import Container from 'react-bootstrap/Container';
 import {css, jsx} from "@emotion/react";
 
 const SignInSection: React.FC = () => {
-  const containerStyle = css({
-    backgroundColor: 'red',
-    boxSizing: 'content-box',
-    display: 'flex',
-    width: '40%',
-    maxWidth: 400,
-    minWidth: 300
-  });
-  return <Container css={containerStyle}>
+  return <Container>
     <Title />
 
   </Container>;
@@ -21,8 +13,7 @@ const SignInSection: React.FC = () => {
 
 const Title: React.FC = () => {
   return <Container css={css({
-    backgroundColor: 'pink',
-    height: 100
+    backgroundColor: 'pink'
   })}>
     Sign In
   </Container>

@@ -1,13 +1,14 @@
 import React, {ReactElement} from "react";
 import {css} from "@emotion/react";
 import Sizes from "src/constants/Sizes";
-import {Button, Nav, Navbar, NavbarBrand} from "react-bootstrap";
+import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
 import brandImage from 'src/assets/brand_at_top_navigation.png'
 import NavbarCollapse from "react-bootstrap/lib/NavbarCollapse";
 import Container from 'react-bootstrap/Container';
 import Colors from "src/constants/Colors";
 import {SerializedStyles} from "@emotion/serialize";
 import {LinkContainer} from 'react-router-bootstrap'
+import ButtonComponent from "src/pages/components/ButtonComponent";
 
 const Header: React.FC = () => {
   const topNavigationContainerStyle = css({
@@ -34,7 +35,7 @@ const Header: React.FC = () => {
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
-            <JoinButton />
+            <ButtonComponent />
           </Nav.Link>
         </LinkContainer>
       </Nav>
@@ -46,19 +47,6 @@ const Header: React.FC = () => {
   </div>;
 };
 
-const JoinButton: React.FC = () => {
-  //todo: refac - 클릭했을 시 글씨 색상 주황색으로 바꾸기.
-  return <>
-    <style type="text/css"> {`
-            .btn-join {
-              background-color: ${Colors.theme.main.orgasme};
-              color: ${Colors.theme.text.button.default};
-            }
-          `}
-    </style>
-    <Button variant={"join"}>Join</Button>
-  </>
-};
 
 const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
                                                              brand,

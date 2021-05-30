@@ -4,6 +4,7 @@ import React from "react";
 import {css, jsx} from "@emotion/react";
 import Container from "react-bootstrap/Container";
 import Pixel from "src/graphic/size/pixel";
+import Colors from "src/constants/Colors";
 
 const SignUpSection: React.FC = () => {
   return <Container>
@@ -18,7 +19,8 @@ const Title: React.FC = () => {
       textAlign: 'center',
       fontSize: new Pixel(50).value,
       fontFamily: "ObjectSans-Regular",
-      color: '#d94d3b',
+      color: Colors.theme.text.default,
+      fontWeight: 700
     })}>
       Sign Up
     </h2>

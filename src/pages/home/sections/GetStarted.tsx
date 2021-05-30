@@ -84,7 +84,7 @@ const GetStartedButton: React.FC = () => {
         <style type="text/css"> {`
             .btn-getStarted {
               background-color: ${Colors.theme.main.orgasme};
-              color: ${Colors.theme.button.default};
+              color: ${Colors.theme.text.button.default};
             }
           `}
         </style>

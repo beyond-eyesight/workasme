@@ -9,8 +9,11 @@ export default {
     bar: {
       top: '#ffffff'
     },
-    button: {
-      default: "#ffffff",
+    text: {
+      default: "black",
+      button: {
+        default: "#ffffff",
+      },
     },
     screen: {
       background: '#FFFFFF'

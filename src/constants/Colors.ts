@@ -2,10 +2,16 @@
 export default {
   dev: {},
   theme: {
+    main: {
+      work: "#d94d3b",
+      orgasme: "#802578"
+    },
     bar: {
       top: '#ffffff'
     },
-    main: '#22B6E8',
+    button: {
+      default: "#ffffff",
+    },
     screen: {
       background: '#FFFFFF'
     }

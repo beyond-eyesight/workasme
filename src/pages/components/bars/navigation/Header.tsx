@@ -9,6 +9,7 @@ import Colors from "src/constants/Colors";
 import {SerializedStyles} from "@emotion/serialize";
 import {LinkContainer} from 'react-router-bootstrap'
 import ButtonComponent from "src/pages/components/ButtonComponent";
+import Percentage from "src/graphic/size/percentage";
 
 const Header: React.FC = () => {
   const topNavigationContainerStyle = css({
@@ -37,7 +38,7 @@ const Header: React.FC = () => {
           <Nav.Link>
             <ButtonComponent name={"join"} backgroundColor={Colors.theme.main.orgasme}
                              defaultTextColor={Colors.theme.text.button.default}
-            >
+             width={new Percentage(100)}>
               Join
             </ButtonComponent>
           </Nav.Link>

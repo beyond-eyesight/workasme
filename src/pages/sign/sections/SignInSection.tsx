@@ -7,6 +7,7 @@ import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
 import {Form} from "react-bootstrap";
 import ButtonComponent from "src/pages/components/ButtonComponent";
+import Percentage from "src/graphic/size/percentage";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -43,7 +44,7 @@ const PasswordInput: React.FC = () => {
 const SignInButton: React.FC = () => {
   return <ButtonComponent name={"signIn"} backgroundColor={Colors.theme.main.orgasme}
                           defaultTextColor={Colors.theme.text.button.default}
-  >
+   width={new Percentage(100)}>
     Sign In
   </ButtonComponent>;
 };

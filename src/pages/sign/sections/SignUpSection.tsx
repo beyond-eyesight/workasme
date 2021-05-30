@@ -9,8 +9,34 @@ import Colors from "src/constants/Colors";
 const SignUpSection: React.FC = () => {
   return <Container>
     <Title />
+    <SignUpForm />
 
   </Container>;
+};
+
+const SignUpForm: React.FC = () => {
+  return <Container>
+    <EmailInput />
+    <PasswordInput />
+    <FullNameInput />
+    <BelongsToInput />
+  </Container>;
+};
+
+const EmailInput: React.FC = () => {
+  return <div/>;
+};
+
+const PasswordInput: React.FC = () => {
+  return <div/>;
+};
+
+const FullNameInput: React.FC = () => {
+  return <div/>;
+};
+
+const BelongsToInput: React.FC = () => {
+  return <div/>;
 };
 
 const Title: React.FC = () => {

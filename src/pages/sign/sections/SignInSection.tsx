@@ -9,8 +9,29 @@ import Colors from "src/constants/Colors";
 const SignInSection: React.FC = () => {
   return <Container>
     <Title />
+    <SignInForm />
 
   </Container>;
+};
+
+const SignInForm: React.FC = () => {
+  return <Container>
+    <EmailInput />
+    <PasswordInput />
+    <ContinueWithGoolgeButton />
+  </Container>;
+};
+
+const EmailInput: React.FC = () => {
+  return <div/>;
+};
+
+const PasswordInput: React.FC = () => {
+  return <div/>;
+};
+
+const ContinueWithGoolgeButton: React.FC = () => {
+  return <div/>;
 };
 
 const Title: React.FC = () => {

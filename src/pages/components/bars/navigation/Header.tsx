@@ -35,7 +35,8 @@ const Header: React.FC = () => {
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
-            <ButtonComponent />
+            <ButtonComponent name={"join"} backgroundColor={Colors.theme.main.orgasme}
+                             defaultTextColor={Colors.theme.text.button.default}/>
           </Nav.Link>
         </LinkContainer>
       </Nav>
@@ -56,7 +57,7 @@ const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
 
 
   // todo: refac links
-  return <Navbar expand="lg" >
+  return <Navbar expand="lg">
     <Container css={containerStyle}>
       <LinkContainer to={"/"}>{brand}</LinkContainer>
       {/*todo: check - 이거 뭔지 현재 모름.*/}
@@ -65,8 +66,6 @@ const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
     </Container>
   </Navbar>
 };
-
-
 
 
 interface TopNavigationBarProps {

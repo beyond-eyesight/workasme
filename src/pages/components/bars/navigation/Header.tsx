@@ -36,7 +36,10 @@ const Header: React.FC = () => {
         <LinkContainer to={"/sign"}>
           <Nav.Link>
             <ButtonComponent name={"join"} backgroundColor={Colors.theme.main.orgasme}
-                             defaultTextColor={Colors.theme.text.button.default}/>
+                             defaultTextColor={Colors.theme.text.button.default}
+            >
+              Join
+            </ButtonComponent>
           </Nav.Link>
         </LinkContainer>
       </Nav>

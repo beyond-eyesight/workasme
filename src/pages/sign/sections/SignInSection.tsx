@@ -5,7 +5,8 @@ import Container from 'react-bootstrap/Container';
 import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
-import {Button, Form} from "react-bootstrap";
+import {Form} from "react-bootstrap";
+import ButtonComponent from "src/pages/components/ButtonComponent";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -40,9 +41,11 @@ const PasswordInput: React.FC = () => {
 };
 
 const SignInButton: React.FC = () => {
-  return <Button variant="primary" type="submit">
+  return <ButtonComponent name={"signIn"} backgroundColor={Colors.theme.main.orgasme}
+                          defaultTextColor={Colors.theme.text.button.default}
+  >
     Sign In
-  </Button>;
+  </ButtonComponent>;
 };
 
 const Title: React.FC = () => {

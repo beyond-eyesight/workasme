@@ -11,10 +11,12 @@ const ManagementPage: React.FC = () => {
 
 const SelectSelfOrTeamTab: React.FC = () => {
   return <Container>
-    <Col>
-      <Row sm={3}>
+    <Col lg={9}>
+      <Row lg={9}>
         <Tabs defaultActiveKey="self" id="management">
-          <Tab eventKey="self" title="Self"/>
+          <Tab eventKey="self" title="Self">
+            <div>asdf</div>
+          </Tab>
           <Tab eventKey="team" title="Team - Please Wait!"/>
         </Tabs>
       </Row>

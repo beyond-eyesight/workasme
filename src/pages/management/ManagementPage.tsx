@@ -9,17 +9,13 @@ const ManagementPage: React.FC = () => {
 };
 
 const SelectSelfOrTeamTab: React.FC = () => {
-  return <Tab.Container defaultActiveKey="self" id="manage">
+  return <Tab.Container>
     <Col>
       <Row sm={3}>
-        <Nav variant="pills" className="flex-row">
-          <Nav.Item>
-            <Nav.Link eventKey="self">Self</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="team">Team</Nav.Link>
-          </Nav.Item>
-        </Nav>
+        <Tabs defaultActiveKey="self" id="management">
+          <Tab eventKey="self" title="Self"/>
+          <Tab eventKey="team" title="Team - Please Wait!" />
+        </Tabs>
       </Row>
       <Row sm={9}>
         <Tab.Content>

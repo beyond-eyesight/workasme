@@ -1,6 +1,6 @@
 import React from "react";
 
-const PrioritySection: React.FC = () => {
+const YouShouldFocusOnPart: React.FC = () => {
   return <div>
     <SelectPermissionButtonsPart />
     <GuideBoardPart />
@@ -21,4 +21,4 @@ const PriorityInformationCard: React.FC = () => {
   return <div />;
 };
 
-export default PrioritySection;
+export default YouShouldFocusOnPart;

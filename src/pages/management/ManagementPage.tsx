@@ -1,23 +1,19 @@
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
+import SelfManagementSection from "./sections/SelfManagementSection";
 
 const ManagementPage: React.FC = () => {
   return <Container>
     <Tabs defaultActiveKey="self" id="management">
       <Tab eventKey="self" title="Self">
-        <Sonnet />
+        <SelfManagementSection />
       </Tab>
       <Tab eventKey="team" title="Team - Please Wait!" disabled>
-        <Sonnet />
       </Tab>
     </Tabs>
   </Container>
 };
-
-const Sonnet: React.FC = () => {
-  return <p>hahaha</p>
-}
 
 
 

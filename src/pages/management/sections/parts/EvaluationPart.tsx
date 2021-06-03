@@ -1,6 +1,6 @@
 import React from "react";
 
-const EvaluationSection: React.FC = () => {
+const EvaluationPart: React.FC = () => {
   return <div>
     <EvaluationGraphPart />
     <SuggestPart />
@@ -16,4 +16,4 @@ const SuggestPart: React.FC = () => {
   return <div/>;
 };
 
-export default EvaluationSection;
+export default EvaluationPart;

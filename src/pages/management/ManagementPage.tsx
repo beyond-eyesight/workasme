@@ -3,11 +3,23 @@ import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 
 const ManagementPage: React.FC = () => {
-  console.log("good Management Page");
-  return <div>
-    <SelectSelfOrTeamTab />
-  </div>
+  return <Container>
+    <Tabs defaultActiveKey="self" id="management">
+      <Tab eventKey="self" title="Self">
+        <Sonnet />
+      </Tab>
+      <Tab eventKey="team" title="Team - Please Wait!" disabled>
+        <Sonnet />
+      </Tab>
+    </Tabs>
+  </Container>
 };
+
+const Sonnet: React.FC = () => {
+  return <p>hahaha</p>
+}
+
+
 
 const SelectSelfOrTeamTab: React.FC = () => {
   return <Container>

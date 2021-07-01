@@ -1,12 +1,15 @@
 import React from "react";
-import {css} from "@emotion/react";
 import Colors from "src/constants/Colors";
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import {css, jsx} from "@emotion/react";
+import Pixel from "src/graphic/size/pixel";
 
-const YouShouldFocusOnPart: React.FC = () => {
+const YouShouldFocusOnPart: React.FC<{height: Pixel}> = (props: {height: Pixel}) => {
+  const {height} = props;
   return <div css={css({
     backgroundColor: Colors.theme.main.orgasme,
-    width: 900,
-    height: 200
+    height: height.value
   })}>
     <SelectPermissionButtonsPart />
     <GuideBoardPart />

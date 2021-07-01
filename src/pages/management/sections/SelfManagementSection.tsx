@@ -22,14 +22,10 @@ const SelfManagementSection: React.FC = () => {
           paddingLeft: 0,
           paddingRight: 0
         })}>
-          <div css={css({
-            backgroundColor:'red',
-            height: 500,
-          })}>hahahaha</div>
-          <div css={css({
-            backgroundColor:'blue',
-            height: 500,
-          })}>hahahaha</div>
+          <YouShouldFocusOnPart height={new Pixel(300)}/>
+          <TimeTrackerPart height={new Pixel(300)}/>
+          <ToDoListPart height={new Pixel(300)}/>
+          <EvaluationPart height={new Pixel(300)}/>
         </Col>
         <SideBar width={new Pixel(270)}/>
       </Row>
@@ -37,10 +33,5 @@ const SelfManagementSection: React.FC = () => {
   </Container>;
 };
 
-
-// <YouShouldFocusOnPart />
-// <TimeTrackerPart />
-// <ToDoListPart />
-// <EvaluationPart/>
 
 export default SelfManagementSection;

@@ -12,6 +12,7 @@ const ManagementPage: React.FC = () => {
       <Tab eventKey="team" title="Team - Please Wait!" disabled>
       </Tab>
     </Tabs>
+
   </Container>
 };
 

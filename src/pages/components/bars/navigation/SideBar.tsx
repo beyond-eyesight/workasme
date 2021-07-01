@@ -3,7 +3,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import React from "react";
 
 const SideBar: React.FC = () => {
-  return <ProSidebar>
+  return <ProSidebar rtl={true}>
     <Menu iconShape="square">
       <MenuItem>Dashboard</MenuItem>
       <SubMenu title="Components">

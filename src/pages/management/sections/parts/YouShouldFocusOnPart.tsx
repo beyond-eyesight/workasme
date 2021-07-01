@@ -1,7 +1,13 @@
 import React from "react";
+import {css} from "@emotion/react";
+import Colors from "src/constants/Colors";
 
 const YouShouldFocusOnPart: React.FC = () => {
-  return <div>
+  return <div css={css({
+    backgroundColor: Colors.theme.main.orgasme,
+    width: 900,
+    height: 200
+  })}>
     <SelectPermissionButtonsPart />
     <GuideBoardPart />
     <PriorityInformationCard />

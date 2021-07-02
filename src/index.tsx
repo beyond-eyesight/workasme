@@ -9,14 +9,13 @@ import Header from "src/pages/components/bars/navigation/Header";
 import HomePage from "src/pages/home/Home";
 import SignPage from "src/pages/sign/SignPage";
 import ManagementPage from "src/pages/management/ManagementPage";
-import ExampleSection from "src/pages/management/sections/ExampleSection";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Header />
       <Switch>
-        <Route exact path={"/"}  component={ExampleSection}/>
+        <Route exact path={"/"}  component={HomePage}/>
         <Route exact path={"/sign"}  component={SignPage}/>
         <Route exact path={"/management"}  component={ManagementPage}/>
       </Switch>

@@ -5,12 +5,10 @@ import {
   Element,
   Events,
   animateScroll,
-  scrollSpy,
   scroller
 } from "react-scroll";
 
 import React from "react";
-import ReactDOM from "react-dom";
 
 const durationFn = function(deltaTop: any) {
   return deltaTop;

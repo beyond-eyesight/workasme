@@ -31,30 +31,6 @@ const SelfManagementSection: React.FC = () => {
           paddingRight: 0
         })}>
 
-          <Link
-            activeClass="active"
-            to="firstInsideContainer"
-            spy={true}
-            smooth={true}
-            duration={250}
-            containerId="containerElement"
-            style={{ display: "inline-block", margin: "20px" }}
-          >
-            Go to first element inside container
-          </Link>
-
-          <Link
-            activeClass="active"
-            to="secondInsideContainer"
-            spy={true}
-            smooth={true}
-            duration={250}
-            containerId="containerElement"
-            style={{ display: "inline-block", margin: "20px" }}
-          >
-            Go to second element inside container
-          </Link>
-
           <Element
             name="test7"
             className="element"

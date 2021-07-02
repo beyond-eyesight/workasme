@@ -3,15 +3,64 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import React from "react";
 import Pixel from "src/graphic/size/pixel";
 import {Link} from "react-scroll";
+import {Col} from "react-bootstrap";
 
 const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
   const { width } = props;
   return <ProSidebar width={width.value}>
     <Menu iconShape="square">
-      <MenuItem>You Should Focus On</MenuItem>
-      <MenuItem>Memento</MenuItem>
-      <MenuItem>ToDos</MenuItem>
-      <MenuItem>EvaluationPart</MenuItem>
+      <MenuItem>
+        <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={250}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          You Should Focus On
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={250}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          Memento
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={250}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          ToDo List
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link
+          activeClass="active"
+          to="firstInsideContainer"
+          spy={true}
+          smooth={true}
+          duration={250}
+          containerId="containerElement"
+          style={{ display: "inline-block", margin: "20px" }}
+        >
+          Feedback
+        </Link>
+      </MenuItem>
     </Menu>
   </ProSidebar>;
 };

@@ -10,26 +10,14 @@ import {Col, Container, Row} from "react-bootstrap";
 import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
+import ExampleSection from "src/pages/management/sections/ExampleSection";
 
 const SelfManagementSection: React.FC = () => {
   return <Container css={css({
     paddingLeft: 0,
     paddingRight: 0
   })}>
-    <Col>
-      <Row>
-        <Col css={css({
-          paddingLeft: 0,
-          paddingRight: 0
-        })}>
-          <YouShouldFocusOnPart height={new Pixel(300)}/>
-          <TimeTrackerPart height={new Pixel(300)}/>
-          <ToDoListPart height={new Pixel(300)}/>
-          <EvaluationPart height={new Pixel(300)}/>
-        </Col>
-        <SideBar width={new Pixel(270)}/>
-      </Row>
-    </Col>
+    <ExampleSection/>
   </Container>;
 };
 

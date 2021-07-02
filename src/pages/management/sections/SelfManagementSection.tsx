@@ -59,11 +59,18 @@ const SelfManagementSection: React.FC = () => {
             >
               second element inside container
             </Element>
+            <Element
+              name="Feedback"
+              style={{
+                backgroundColor: 'black'
+              }}
+            >
+              <EvaluationPart height={new Pixel(300)}/>
+            </Element>
           </Element>
           <YouShouldFocusOnPart height={new Pixel(300)}/>
           <TimeTrackerPart height={new Pixel(300)}/>
           <ToDoListPart height={new Pixel(300)}/>
-          <EvaluationPart height={new Pixel(300)}/>
         </Col>
         <SideBar width={new Pixel(270)}/>
       </Row>

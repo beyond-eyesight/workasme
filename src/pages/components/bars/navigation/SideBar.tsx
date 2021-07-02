@@ -32,7 +32,7 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
           containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
-          Memento
+          ToDo List
         </Link>
       </MenuItem>
       <MenuItem>
@@ -45,13 +45,13 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
           containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
-          ToDo List
+          Memento
         </Link>
       </MenuItem>
       <MenuItem>
         <Link
           activeClass="active"
-          to="firstInsideContainer"
+          to="Feedback"
           spy={true}
           smooth={true}
           duration={250}

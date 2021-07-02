@@ -55,7 +55,6 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
           spy={true}
           smooth={true}
           duration={250}
-          containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
           Feedback

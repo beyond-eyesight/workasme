@@ -32,41 +32,41 @@ const SelfManagementSection: React.FC = () => {
         })}>
 
           <Element
-            name="test7"
+            name="firstInsideContainer"
+            style={{
+              marginBottom: "200px"
+            }}
+          >
+            first element inside container
+          </Element>
+
+          <Element
+            name="secondInsideContainer"
+            style={{
+              marginBottom: "200px"
+            }}
+          >
+            second element inside container
+          </Element>
+          <Element
+            name="Feedback"
+            style={{
+              backgroundColor: 'black'
+            }}
+          >
+            <EvaluationPart height={new Pixel(300)}/>
+          </Element>
+
+          <Element
+            name="body"
             className="element"
             id="containerElement"
             style={{
               position: "relative",
-              height: "200px",
-              overflow: "scroll",
-              marginBottom: "100px"
+              overflow: "scroll"
             }}
           >
-            <Element
-              name="firstInsideContainer"
-              style={{
-                marginBottom: "200px"
-              }}
-            >
-              first element inside container
-            </Element>
 
-            <Element
-              name="secondInsideContainer"
-              style={{
-                marginBottom: "200px"
-              }}
-            >
-              second element inside container
-            </Element>
-            <Element
-              name="Feedback"
-              style={{
-                backgroundColor: 'black'
-              }}
-            >
-              <EvaluationPart height={new Pixel(300)}/>
-            </Element>
           </Element>
           <YouShouldFocusOnPart height={new Pixel(300)}/>
           <TimeTrackerPart height={new Pixel(300)}/>

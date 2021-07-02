@@ -12,11 +12,10 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
       <MenuItem>
         <Link
           activeClass="active"
-          to="firstInsideContainer"
+          to="YouShouldFocusOn"
           spy={true}
           smooth={true}
           duration={250}
-          containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
           You Should Focus On
@@ -25,11 +24,10 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
       <MenuItem>
         <Link
           activeClass="active"
-          to="firstInsideContainer"
+          to="ToDoList"
           spy={true}
           smooth={true}
           duration={250}
-          containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
           ToDo List
@@ -38,11 +36,10 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
       <MenuItem>
         <Link
           activeClass="active"
-          to="firstInsideContainer"
+          to="Memento"
           spy={true}
           smooth={true}
           duration={250}
-          containerId="containerElement"
           style={{ display: "inline-block", margin: "20px" }}
         >
           Memento

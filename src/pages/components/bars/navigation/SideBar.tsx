@@ -15,6 +15,5 @@ const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
   </ProSidebar>;
 };
 
-https://www.npmjs.com/package/react-scroll
 
 export default SideBar;

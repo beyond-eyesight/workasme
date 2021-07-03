@@ -7,19 +7,21 @@ import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import {Accordion, Button, Card, ProgressBar} from "react-bootstrap";
 
-const YouShouldFocusOnPriorityPart: React.FC<{height: Pixel}> = (props: {height: Pixel}) => {
-  const {height} = props;
+const YouShouldFocusOnPriorityPart: React.FC<{marginTop: Pixel}> = (props: {marginTop: Pixel}) => {
+  const {marginTop} = props;
   return <div css={css({
-    backgroundColor: 'pink',
-    height: height.value
+    marginTop: marginTop.value
   })}>
-    <PartTitle />
+    <PartTitle marginBottom = {new Pixel(20)}/>
     <PriorityInformationCard />
   </div>;
 };
 
-const PartTitle: React.FC = () => {
-  return <div>
+const PartTitle: React.FC<{marginBottom: Pixel}> = (props: {marginBottom: Pixel}) => {
+  const {marginBottom} = props
+  return <div css={css({
+    marginBottom: marginBottom.value
+  })}>
     <h2>
       You should focus on PRIORITY
     </h2>

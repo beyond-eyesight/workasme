@@ -34,7 +34,7 @@ const SelfManagementSection: React.FC = () => {
           <Element
             name="YouShouldFocusOn"
           >
-            <YouShouldFocusOnPriorityPart height={new Pixel(300)}/>
+            <YouShouldFocusOnPriorityPart marginTop={new Pixel(40)}/>
           </Element>
 
 

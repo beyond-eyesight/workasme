@@ -7,10 +7,11 @@ import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import {Accordion, Button, Card, ProgressBar} from "react-bootstrap";
 
-const YouShouldFocusOnPriorityPart: React.FC<{marginTop: Pixel}> = (props: {marginTop: Pixel}) => {
-  const {marginTop} = props;
+const YouShouldFocusOnPriorityPart: React.FC<{marginVertical: Pixel}> = (props: {marginVertical: Pixel}) => {
+  const {marginVertical} = props;
   return <div css={css({
-    marginTop: marginTop.value
+    marginTop: marginVertical.value,
+    marginBottom: marginVertical.value
   })}>
     <PartTitle marginBottom = {new Pixel(20)}/>
     <PriorityInformationCard />
@@ -18,7 +19,7 @@ const YouShouldFocusOnPriorityPart: React.FC<{marginTop: Pixel}> = (props: {marg
 };
 
 const PartTitle: React.FC<{marginBottom: Pixel}> = (props: {marginBottom: Pixel}) => {
-  const {marginBottom} = props
+  const {marginBottom} = props;
   return <div css={css({
     marginBottom: marginBottom.value
   })}>
@@ -27,24 +28,6 @@ const PartTitle: React.FC<{marginBottom: Pixel}> = (props: {marginBottom: Pixel}
     </h2>
   </div>
 };
-
-// Priority에
-//
-// 반드시 들어가야하는거
-//
-//
-//
-// Character Name
-//
-// Task Name
-//
-// Expected Period, Actual Period(progress bar)
-//
-// BottleNeck Logs
-//
-// Pieces Of Task
-//
-// Contact Lists
 
 const PriorityInformationCard: React.FC = () => {
   return <Card style={{ width: '90%' }}>

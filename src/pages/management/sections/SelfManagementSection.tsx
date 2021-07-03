@@ -20,6 +20,7 @@ import Colors from "src/constants/Colors";
 import ExampleSection from "src/pages/management/sections/ExampleSection";
 
 const SelfManagementSection: React.FC = () => {
+  const marginVertical = new Pixel(30);
   return <Container css={css({
     paddingLeft: 0,
     paddingRight: 0
@@ -34,14 +35,14 @@ const SelfManagementSection: React.FC = () => {
           <Element
             name="YouShouldFocusOn"
           >
-            <YouShouldFocusOnPriorityPart marginTop={new Pixel(40)}/>
+            <YouShouldFocusOnPriorityPart marginVertical={marginVertical}/>
           </Element>
 
 
           <Element
             name="ToDoList"
           >
-            <ToDoListPart height={new Pixel(300)}/>
+            <ToDoListPart marginVertical={marginVertical}/>
           </Element>
 
           <Element

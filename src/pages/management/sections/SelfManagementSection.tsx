@@ -10,14 +10,8 @@ import {Col, Container, Row} from "react-bootstrap";
 import {css, jsx} from "@emotion/react";
 import Pixel from "src/graphic/size/pixel";
 import {
-  Link,
   Element,
-  Events,
-  animateScroll,
-  scroller
 } from "react-scroll";
-import Colors from "src/constants/Colors";
-import ExampleSection from "src/pages/management/sections/ExampleSection";
 
 const SelfManagementSection: React.FC = () => {
   const marginVertical = new Pixel(30);

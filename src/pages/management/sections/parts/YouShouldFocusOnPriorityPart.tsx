@@ -13,8 +13,17 @@ const YouShouldFocusOnPriorityPart: React.FC<{height: Pixel}> = (props: {height:
     backgroundColor: 'pink',
     height: height.value
   })}>
+    <PartTitle />
     <PriorityInformationCard />
   </div>;
+};
+
+const PartTitle: React.FC = () => {
+  return <div>
+    <h2>
+      You should focus on PRIORITY
+    </h2>
+  </div>
 };
 
 // Priority에

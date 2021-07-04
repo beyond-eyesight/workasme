@@ -108,8 +108,6 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
   </div>
 };
 
-https://ko.reactjs.org/docs/hooks-reference.html#useref 이거를 좀 깨끗한 곳에서 트라이해보자.
-
 
 // <tr>
 //   <td>TaskName1</td>

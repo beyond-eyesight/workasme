@@ -9,18 +9,22 @@ import {TaskListRowDto} from "src/pages/management/sections/parts/dtos/TaskListR
 const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
   const {marginVertical} = props;
 
+  const onClick: () => void = () => {console.log("aaaaaa")};
+
   const [rows, setRows] = useState<TaskListRowDto[]>([
     {
       name: "task1",
       importanceLevel: "HIGH",
       stuckOn: "BOTTLENeck1",
-      checkPriority: "checkit"
+      checkPriority: "checkit",
+      onClick: onClick
     },
     {
       name: "task2",
       importanceLevel: "MIDDLE",
       stuckOn: "BOTTLENeck2",
-      checkPriority: "checkit"
+      checkPriority: "checkit",
+      onClick: onClick
     }
   ]);
 
@@ -50,10 +54,10 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
       <tbody>
       {rows.map((row) => {
         return <tr>
-          <td>{row.name}</td>
-          <td>{row.importanceLevel}</td>
-          <td>{row.stuckOn}</td>
-          <td>{row.checkPriority}</td>
+          <td onClick={row.onClick}>{row.name}</td>
+          <td onClick={row.onClick}>{row.importanceLevel}</td>
+          <td onClick={row.onClick}>{row.stuckOn}</td>
+          <td onClick={row.onClick}>{row.checkPriority}</td>
         </tr>
       })}
       </tbody>

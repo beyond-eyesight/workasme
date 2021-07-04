@@ -31,7 +31,10 @@ const Cell: React.FC<{initialValue: string}> = (props: {initialValue: string}) =
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {setValue(e.target.value)};
-  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {updateMyData()};
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Blurred!!!")
+    console.log(e)
+  };
 
   function handleEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {

@@ -3,7 +3,7 @@ import Pixel from "src/graphic/size/pixel";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
-import {Table} from "react-bootstrap";
+import {Dropdown, Table} from "react-bootstrap";
 
 const ToDoListPart: React.FC<{marginVertical: Pixel}> = (props: {marginVertical: Pixel}) => {
   const {marginVertical} = props;
@@ -24,7 +24,19 @@ const ToDoListPart: React.FC<{marginVertical: Pixel}> = (props: {marginVertical:
       <tbody>
       <tr>
         <td>TaskName1</td>
-        <td>HIGH</td>
+        <td>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Dropdown Button
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => {console.log("clicked HIGH")}}>HIGH</Dropdown.Item>
+              <Dropdown.Item>MIDDLE</Dropdown.Item>
+              <Dropdown.Item>LOW</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
         <td>SELF</td>
       </tr>
       <tr>

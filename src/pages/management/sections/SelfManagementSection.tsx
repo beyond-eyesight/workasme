@@ -1,7 +1,6 @@
 import React from "react";
 import YouShouldFocusOnPriorityPart from "src/pages/management/sections/parts/YouShouldFocusOnPriorityPart";
 import EvaluationPart from "src/pages/management/sections/parts/EvaluationPart";
-import ToDoListPart from "src/pages/management/sections/parts/ToDoListPart";
 import TimeTrackerPart from "src/pages/management/sections/parts/TimeTrackerPart";
 import SideBar from "src/pages/components/bars/navigation/SideBar";
 import {Col, Container, Row} from "react-bootstrap";
@@ -12,6 +11,7 @@ import Pixel from "src/graphic/size/pixel";
 import {
   Element,
 } from "react-scroll";
+import TaskListPart from "./parts/TaskListPart";
 
 const SelfManagementSection: React.FC = () => {
   const marginVertical = new Pixel(30);
@@ -36,7 +36,7 @@ const SelfManagementSection: React.FC = () => {
           <Element
             name="ToDoList"
           >
-            <ToDoListPart marginVertical={marginVertical}/>
+            <TaskListPart marginVertical={marginVertical}/>
           </Element>
 
           <Element

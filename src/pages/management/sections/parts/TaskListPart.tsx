@@ -31,10 +31,6 @@ const Cell: React.FC<{initialValue: string}> = (props: {initialValue: string}) =
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {setValue(e.target.value)};
-  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Blurred!!!")
-    console.log(e)
-  };
 
   function handleEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
@@ -50,7 +46,7 @@ const Cell: React.FC<{initialValue: string}> = (props: {initialValue: string}) =
     }
   };
 
-  return <input value={value} onKeyPress={handleKeyPress} onChange={onChange} onBlur={onBlur}/>
+  return <input value={value} onKeyPress={handleKeyPress} onChange={onChange}/>
 };
 
 const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
@@ -111,6 +107,8 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
     </Table>
   </div>
 };
+
+https://ko.reactjs.org/docs/hooks-reference.html#useref 이거를 좀 깨끗한 곳에서 트라이해보자.
 
 
 // <tr>

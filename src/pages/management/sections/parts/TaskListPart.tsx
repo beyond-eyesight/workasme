@@ -18,8 +18,7 @@ const Cell: React.FC<{initialValue: string}> = (props: {initialValue: string}) =
     setSkipPageReset(true)
     setData((old: any) => {
         return old.map((row: any, index: number) => {
-          if (index === rowIndex) {
-            return {
+          if (index === rowIndex) {return {
               ...old[rowIndex],
               [columnId]: value,
             }

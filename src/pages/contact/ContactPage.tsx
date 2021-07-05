@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
 import Container from 'react-bootstrap/Container';
 
 
@@ -12,39 +12,36 @@ function getAverage(numbers: number[]) {
 
 const ContactPage: React.FC = () => {
 
-  const [list, setList] = useState<number[]>([]);
-  const [number, setNumber] = useState('');
-  const inputElement = useRef<HTMLDivElement>(null);
+  const divRef = React.useRef<HTMLDivElement>(null);
 
-  const onChange = useCallback(e => {
-    setNumber(e.target.value)
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  console.log(divRef);  // { current: null }
+  console.log(inputRef);
+
+  useLayoutEffect(() => {
+    console.log(divRef); // { current: <h1_object> }
+    console.log(inputRef);
+  });
+
+  const callback = useCallback(() => {
+    // @ts-ignore
+    inputRef.current.focus();
   }, []);
 
-  const onInsert = useCallback(() => {
-    const nextList = list.concat(parseInt(number));
-
-    setList(nextList);
-    setNumber('');
-  }, [number, list]);
-
-  const avg = useMemo(() => getAverage(list), [list]);
+  const onInsert = () => {
+    // @ts-ignore
+    inputRef.current.focus();
+  };
 
 
-  return <Container>
-    <div>
-      <input value={number} onChange={onChange}/>
-      <button onClick={onInsert}>등록</button>
-      <ul>
-        {list.map((value, index) => (
-          <li key={index}>{value}</li>
-        ))}
-      </ul>
-      <div>
-        <b>평균값</b> {avg}
-      </div>
-    </div>
-
-  </Container>
+  return (
+    <Container>
+      <div ref={divRef}>hiHi</div>
+      <input ref={inputRef}
+      />
+    </Container>
+  )
 };
 
 

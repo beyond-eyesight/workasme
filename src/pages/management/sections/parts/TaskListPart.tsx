@@ -37,7 +37,7 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
 
     {/* TODO: 서버랑 연동할 때 JSon 신경써야 할듯. */}
 
-    <TaskTable rows={rows}/>
+    <TaskTable rows={rows} isUpdating={isUpdating}/>
 
     {/*is Updating*/}
     <TaskButtons rows={rows} setRows={setRows} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
@@ -52,21 +52,31 @@ const TaskButtons: React.FC<{
     const {rows, setRows, isUpdating, setIsUpdating} = props;
 
     if (isUpdating) {
-      return <TaskButtonsWhenUpdating rows={rows} setRows={setRows}/>
+      return <TaskButtonsWhenUpdating isUpdating={isUpdating} setIsUpdating={setIsUpdating} rows={rows} setRows={setRows}/>
     }
 
-    return <TaskButtonsWhenNotUpdating/>
+    return <TaskButtonsWhenNotUpdating isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
   };
 
 
-const TaskButtonsWhenNotUpdating: React.FC = () => {
+const TaskButtonsWhenNotUpdating: React.FC<{isUpdating: boolean, setIsUpdating:  Dispatch<SetStateAction<boolean>>}> = (
+  props: { isUpdating: boolean, setIsUpdating:  Dispatch<SetStateAction<boolean>>}
+) => {
+  const {isUpdating, setIsUpdating} = props;
+
+  const onUpdateButtonClicked = useCallback(
+    () => {
+      setIsUpdating(true)
+    }, [isUpdating]
+  );
+
   return <div css={css({
     display: 'flex',
     flexDirection: "row-reverse"
   })}>
+
     <Button
-      onClick={() => {
-      }}
+      onClick={onUpdateButtonClicked}
     >
       Update
     </Button>
@@ -74,9 +84,11 @@ const TaskButtonsWhenNotUpdating: React.FC = () => {
   </div>
 };
 
-const TaskButtonsWhenUpdating: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }> = (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>>, }) => {
+const TaskButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdating:  Dispatch<SetStateAction<boolean>>,
+  rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }> =
+  (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>>, isUpdating: boolean, setIsUpdating:  Dispatch<SetStateAction<boolean>>}) => {
 
-  const {rows, setRows} = props;
+  const {rows, setRows, isUpdating, setIsUpdating} = props;
 
   const onAddRowButtonClicked = useCallback(
     () => {
@@ -87,15 +99,21 @@ const TaskButtonsWhenUpdating: React.FC<{ rows: TaskListRowDto[], setRows: Dispa
     }, [rows]
   );
 
-  return <div
+    const onCompleteButtonClicked = useCallback(
+      () => {
+        setIsUpdating(false)
+      }, [isUpdating]
+    );
+
+
+    return <div
     css={css({
       display: 'flex',
       flexDirection: "row-reverse"
     })}
   >
     <Button
-      onClick={() => {
-      }}
+      onClick={onCompleteButtonClicked}
     >
       Complete
     </Button>
@@ -107,8 +125,8 @@ const TaskButtonsWhenUpdating: React.FC<{ rows: TaskListRowDto[], setRows: Dispa
   </div>
 };
 
-const TaskTable: React.FC<{ rows: TaskListRowDto[] }> = (props: { rows: TaskListRowDto[] }) => {
-  const {rows} = props;
+const TaskTable: React.FC<{ rows: TaskListRowDto[], isUpdating: boolean }> = (props: { rows: TaskListRowDto[], isUpdating: boolean }) => {
+  const {rows, isUpdating} = props;
 
   const Cell: React.FC<{ initialValue: string }> = (props: { initialValue: string }) => {
     const {initialValue} = props;
@@ -130,7 +148,11 @@ const TaskTable: React.FC<{ rows: TaskListRowDto[] }> = (props: { rows: TaskList
       }
     };
 
-    return <input value={value} onKeyPress={handleOnlyEnterKeyPressed} onChange={onChange} ref={inputRef}/>
+    function isNotUpdating() {
+      return !isUpdating;
+    }
+
+    return <input disabled={isNotUpdating()} value={value} onKeyPress={handleOnlyEnterKeyPressed} onChange={onChange} ref={inputRef}/>
   };
 
 

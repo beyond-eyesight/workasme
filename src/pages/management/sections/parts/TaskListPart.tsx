@@ -1,4 +1,4 @@
-import React, {KeyboardEventHandler, useState} from "react";
+import React, {Dispatch, KeyboardEventHandler, MutableRefObject, SetStateAction, useCallback, useState} from "react";
 import Pixel from "src/graphic/size/pixel";
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -7,52 +7,35 @@ import {Button, Dropdown, Table} from "react-bootstrap";
 import {TaskListRowDto} from "src/pages/management/sections/parts/dtos/TaskListRowDto";
 import makeData from "src/pages/management/sections/parts/makedata";
 
-const Cell: React.FC<{initialValue: string}> = (props: {initialValue: string}) => {
+const Cell: React.FC<{ initialValue: string }> = (props: { initialValue: string }) => {
   const {initialValue} = props;
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const [value, setValue] = React.useState(initialValue);
-  const [skipPageReset, setSkipPageReset] = React.useState(false);
-  const [data, setData] = React.useState(() => makeData(20))
 
-  const updateMyData = (rowIndex: number, columnId: number, value: string) => {
-    // We also turn on the flag to not reset the page
-    setSkipPageReset(true)
-    setData((old: any) => {
-        return old.map((row: any, index: number) => {
-          if (index === rowIndex) {return {
-              ...old[rowIndex],
-              [columnId]: value,
-            }
-          }
-          return row
-        });
-      }
-    )
-  }
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+  };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {setValue(e.target.value)};
-
-  function handleEnter(e: KeyboardEvent) {
-    if (e.key === "Enter") {
-      console.log("clicked enter!!")
+  const handleOnlyEnterKeyPressed = (e: any) => {
+    if (isEnterPressed()) {
+      // @ts-ignore
+      inputRef.current.blur()
     }
-  }
 
-
-
-  // todo: 무슨 이벤트인지 보
-  const handleKeyPress = (e: any) => {
-    if (e.key === "Enter") {
+    function isEnterPressed() {
+      return e.key === "Enter";
     }
   };
 
-  return <input value={value} onKeyPress={handleKeyPress} onChange={onChange}/>
+
+  return <input value={value} onKeyPress={handleOnlyEnterKeyPressed} onChange={onChange} ref={inputRef}/>
 };
 
 const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
   const {marginVertical} = props;
 
-  const onClick: () => void = () => {console.log("aaaaaa")};
-
+  const onClick: () => void = () => {
+  };
   const [rows, setRows] = useState<TaskListRowDto[]>([
     {
       name: "task1",
@@ -70,41 +53,71 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
     }
   ]);
 
+
   return <div css={css({
     marginTop: marginVertical.value,
     marginBottom: marginVertical.value
   })}>
 
+    {/* TODO: 서버랑 연동할 때 JSon 신경써야 할듯. */}
+
+    <TaskTable rows={rows}/>
+
+    {/*is Updating*/}
+    <TaskButtons rows={rows} setRows={setRows}/>
+  </div>
+};
+
+const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }> =
+  (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }) => {
+  const {rows, setRows} = props;
+
+  const onAddRowButtonClicked = () => {
+    rows.push({
+      checkPriority: "", importanceLevel: "", name: "", onClick: function () {
+      }, stuckOn: ""
+    })
+
+    setRows(rows)
+  };
+
+  return <div
+    css={css({
+      display: 'flex',
+      flexDirection: "row-reverse"
+    })}
+  >
     <Button
-      onClick={() => {
-        console.log("buttonClicked")
-      }}
+      onClick={onAddRowButtonClicked}
     >
       Add Row
     </Button>
-
-    {/* TODO: 서버랑 연동할 때 JSon 신경써야 할듯. */}
-    <Table striped bordered hover>
-      <thead>
-      <tr>
-        <th>Task Name</th>
-        <th>Importance Level</th>
-        <th>BottleNeck</th>
-        <th>Check Priority</th>
-      </tr>
-      </thead>
-      <tbody>
-      {rows.map((row) => {
-        return <tr>
-          <td onClick={row.onClick}><Cell initialValue={row.name}/></td>
-          <td onClick={row.onClick}><Cell initialValue={row.importanceLevel} /></td>
-          <td onClick={row.onClick}><Cell initialValue={row.stuckOn}/></td>
-          <td onClick={row.onClick}><Cell initialValue={row.checkPriority}/></td>
-        </tr>
-      })}
-      </tbody>
-    </Table>
   </div>
+};
+
+const TaskTable: React.FC<{ rows: TaskListRowDto[] }> = (props: { rows: TaskListRowDto[] }) => {
+  const {rows} = props;
+
+  return <Table striped bordered hover>
+    <thead>
+    <tr>
+      <th>Task Name</th>
+      <th>Importance Level</th>
+      <th>BottleNeck</th>
+      <th>Check Priority</th>
+    </tr>
+    </thead>
+    <tbody>
+    {rows.map((row) => {
+      return <tr>
+        <td onClick={row.onClick}><Cell initialValue={row.name}/></td>
+        <td onClick={row.onClick}><Cell initialValue={row.importanceLevel}/></td>
+        <td onClick={row.onClick}><Cell initialValue={row.stuckOn}/></td>
+        <td onClick={row.onClick}><Cell initialValue={row.checkPriority}/></td>
+      </tr>
+    })}
+    </tbody>
+  </Table>
 };
 
 

@@ -12,15 +12,12 @@ function getAverage(numbers: number[]) {
 
 const ContactPage: React.FC = () => {
 
-  const divRef = React.useRef<HTMLDivElement>(null);
+  const [list, setList] = useState([]);
+  const [number, setNumber] = useState('');
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  console.log(divRef);  // { current: null }
-  console.log(inputRef);
-
   useLayoutEffect(() => {
-    console.log(divRef); // { current: <h1_object> }
     console.log(inputRef);
   });
 
@@ -29,17 +26,35 @@ const ContactPage: React.FC = () => {
     inputRef.current.focus();
   }, []);
 
-  const onInsert = () => {
+  const onChange = useCallback(e => {
+    setNumber(e.target.value);
+  }, []); // 컴포넌트가 처음 렌더링 될 때만 함수 생성
+
+  const onInsert = useCallback(() => {
+    // @ts-ignore
+    const nextList = list.concat(parseInt(number));
+    setList(nextList);
+    setNumber('');
     // @ts-ignore
     inputRef.current.focus();
-  };
+  }, [number, list]); // number 혹은 list 가 바뀌었을 때만 함수 생성
 
+  const avg = useMemo(() => getAverage(list), [list]);
 
   return (
     <Container>
-      <div ref={divRef}>hiHi</div>
-      <input ref={inputRef}
+      <div>hiHi</div>
+      <input value={number} ref={inputRef}
       />
+      <button onClick={onInsert}>등록</button>
+      <ul>
+        {list.map((value, index) => (
+          <li key={index}>{value}</li>
+        ))}
+      </ul>
+      <div>
+        <b>평균값:</b> {avg}
+      </div>
     </Container>
   )
 };

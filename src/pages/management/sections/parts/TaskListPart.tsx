@@ -5,34 +5,10 @@ import Pixel from "src/graphic/size/pixel";
 import {css, jsx} from "@emotion/react";
 import {Button, Dropdown, Table} from "react-bootstrap";
 import {TaskListRowDto} from "src/pages/management/sections/parts/dtos/TaskListRowDto";
-import makeData from "src/pages/management/sections/parts/makedata";
-
-const Cell: React.FC<{ initialValue: string }> = (props: { initialValue: string }) => {
-  const {initialValue} = props;
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const [value, setValue] = React.useState(initialValue);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-  };
-
-  const handleOnlyEnterKeyPressed = (e: any) => {
-    if (isEnterPressed()) {
-      // @ts-ignore
-      inputRef.current.blur()
-    }
-
-    function isEnterPressed() {
-      return e.key === "Enter";
-    }
-  };
-
-
-  return <input value={value} onKeyPress={handleOnlyEnterKeyPressed} onChange={onChange} ref={inputRef}/>
-};
 
 const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
   const {marginVertical} = props;
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onClick: () => void = () => {
   };
@@ -64,27 +40,52 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
     <TaskTable rows={rows}/>
 
     {/*is Updating*/}
-    <TaskButtons rows={rows} setRows={setRows}/>
+    <TaskButtons rows={rows} setRows={setRows} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
   </div>
 };
 
-const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }> =
-  (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }) => {
+const TaskButtons: React.FC<{
+  rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>>,
+  isUpdating: boolean, setIsUpdating: Dispatch<SetStateAction<boolean>>
+}> =
+  (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>>, isUpdating: boolean, setIsUpdating: Dispatch<SetStateAction<boolean>> }) => {
+    const {rows, setRows, isUpdating, setIsUpdating} = props;
+
+    if (isUpdating) {
+      return <TaskButtonsWhenUpdating rows={rows} setRows={setRows}/>
+    }
+
+    return <TaskButtonsWhenNotUpdating/>
+  };
+
+
+const TaskButtonsWhenNotUpdating: React.FC = () => {
+  return <div css={css({
+    display: 'flex',
+    flexDirection: "row-reverse"
+  })}>
+    <Button
+      onClick={() => {
+      }}
+    >
+      Update
+    </Button>
+
+  </div>
+};
+
+const TaskButtonsWhenUpdating: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>> }> = (props: { rows: TaskListRowDto[], setRows: Dispatch<SetStateAction<TaskListRowDto[]>>, }) => {
+
   const {rows, setRows} = props;
 
-    const onAddRowButtonClicked = useCallback(
-      () => {
-
-        console.log("clicked add row uppper");
-        console.log(rows);
-        setRows(rows.concat({
-          checkPriority: "", importanceLevel: "", name: "", onClick: function () {
-          }, stuckOn: ""
-        }))
-      }, [rows]
-    );
-
-
+  const onAddRowButtonClicked = useCallback(
+    () => {
+      setRows(rows.concat({
+        checkPriority: "", importanceLevel: "", name: "", onClick: function () {
+        }, stuckOn: ""
+      }))
+    }, [rows]
+  );
 
   return <div
     css={css({
@@ -92,6 +93,12 @@ const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetState
       flexDirection: "row-reverse"
     })}
   >
+    <Button
+      onClick={() => {
+      }}
+    >
+      Complete
+    </Button>
     <Button
       onClick={onAddRowButtonClicked}
     >
@@ -102,6 +109,30 @@ const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetState
 
 const TaskTable: React.FC<{ rows: TaskListRowDto[] }> = (props: { rows: TaskListRowDto[] }) => {
   const {rows} = props;
+
+  const Cell: React.FC<{ initialValue: string }> = (props: { initialValue: string }) => {
+    const {initialValue} = props;
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const [value, setValue] = React.useState(initialValue);
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value)
+    };
+
+    const handleOnlyEnterKeyPressed = (e: any) => {
+      if (isEnterPressed()) {
+        // @ts-ignore
+        inputRef.current.blur()
+      }
+
+      function isEnterPressed() {
+        return e.key === "Enter";
+      }
+    };
+
+    return <input value={value} onKeyPress={handleOnlyEnterKeyPressed} onChange={onChange} ref={inputRef}/>
+  };
+
 
   return <Table striped bordered hover>
     <thead>

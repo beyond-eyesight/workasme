@@ -53,6 +53,18 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
     }
   ]);
 
+  const onAddRowButtonClicked = () => {
+    rows.push({
+      checkPriority: "", importanceLevel: "", name: "", onClick: function () {
+      }, stuckOn: ""
+    });
+
+    console.log("clicked");
+    console.log(rows);
+
+    setRows(rows)
+  };
+
 
   return <div css={css({
     marginTop: marginVertical.value,
@@ -60,6 +72,12 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
   })}>
 
     {/* TODO: 서버랑 연동할 때 JSon 신경써야 할듯. */}
+
+    <Button
+      onClick={onAddRowButtonClicked}
+    >
+      Add Row2
+    </Button>
 
     <TaskTable rows={rows}/>
 
@@ -76,7 +94,7 @@ const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetState
     rows.push({
       checkPriority: "", importanceLevel: "", name: "", onClick: function () {
       }, stuckOn: ""
-    })
+    });
 
     setRows(rows)
   };

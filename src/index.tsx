@@ -9,7 +9,6 @@ import Header from "src/pages/components/bars/navigation/Header";
 import HomePage from "src/pages/home/Home";
 import SignPage from "src/pages/sign/SignPage";
 import ManagementPage from "src/pages/management/ManagementPage";
-import ContactPage from "src/pages/contact/ContactPage";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,7 +18,6 @@ ReactDOM.render(
         <Route exact path={"/"}  component={HomePage}/>
         <Route exact path={"/sign"}  component={SignPage}/>
         <Route exact path={"/management"}  component={ManagementPage}/>
-        <Route exact path={"/contact"}  component={ContactPage}/>
       </Switch>
     </Router>
   </React.StrictMode>,

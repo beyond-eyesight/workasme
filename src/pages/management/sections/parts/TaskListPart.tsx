@@ -181,19 +181,4 @@ const TaskTable: React.FC<{ rows: TaskListRowDto[], isUpdating: boolean }> = (pr
   </Table>
 };
 
-
-// <tr>
-//   <td>TaskName1</td>
-//   <td>
-//     HIGH
-//   </td>
-//   <td></td>
-//   <td>Check Button!</td>
-// </tr>
-// <tr>
-// <td>TaskName2</td>
-// <td>HIGH</td>
-// <td></td>
-// <td>Check Button!</td>
-// </tr>
 export default TaskListPart;

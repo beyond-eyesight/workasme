@@ -3,7 +3,6 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import React from "react";
 import Pixel from "src/graphic/size/pixel";
 import {Link} from "react-scroll";
-import {Col} from "react-bootstrap";
 
 const SideBar: React.FC<{width: Pixel}> = (props: {width: Pixel}) => {
   const { width } = props;

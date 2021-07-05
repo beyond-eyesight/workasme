@@ -114,6 +114,9 @@ const TaskButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdating:  D
   >
     <Button
       onClick={onCompleteButtonClicked}
+      css={css({
+        marginLeft: '10px'
+      })}
     >
       Complete
     </Button>

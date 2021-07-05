@@ -38,6 +38,7 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
   };
   const [rows, setRows] = useState<TaskListRowDto[]>([
     {
+      id: 1,
       name: "task1",
       importanceLevel: "HIGH",
       stuckOn: "BOTTLENeck1",
@@ -45,6 +46,7 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
       onClick: onClick
     },
     {
+      id: 2,
       name: "task2",
       importanceLevel: "MIDDLE",
       stuckOn: "BOTTLENeck2",
@@ -55,11 +57,12 @@ const TaskListPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertic
 
   const onAddRowButtonClicked = () => {
     rows.push({
+      id: 3,
       checkPriority: "", importanceLevel: "", name: "", onClick: function () {
       }, stuckOn: ""
     });
 
-    console.log("clicked");
+    console.log("clicked add row uppper");
     console.log(rows);
 
     setRows(rows)
@@ -92,6 +95,7 @@ const TaskButtons: React.FC<{ rows: TaskListRowDto[], setRows: Dispatch<SetState
 
   const onAddRowButtonClicked = () => {
     rows.push({
+      id: 4,
       checkPriority: "", importanceLevel: "", name: "", onClick: function () {
       }, stuckOn: ""
     });

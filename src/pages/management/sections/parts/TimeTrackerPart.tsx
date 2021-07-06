@@ -18,16 +18,16 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
 
   const [rows, setRows] = useState<TimeTrackerRowDto[]>([
     {
-      expectedBehavior: "TimTrakerPart",
+      expectedActivity: "TimTrakerPart",
       expectedTime: "2 hour",
-      acutualBehavior: "TimeTrackerPart",
+      acutualActivity: "TimeTrackerPart",
       actuaTime: "3 hour",
       timeCategory: "Intellectual",
     },
     {
-      expectedBehavior: "pray",
+      expectedActivity: "pray",
       expectedTime: "2 hour",
-      acutualBehavior: "pray",
+      acutualActivity: "pray",
       actuaTime: "3 hour",
       timeCategory: "Mental",
     }
@@ -61,9 +61,9 @@ const TimeTrackerTable: React.FC<{ rows: TimeTrackerRowDto[], isUpdating: boolea
     <tbody>
     {rows.map((row) => {
       return <tr>
-        <td><BasicInputCell initialValue={row.expectedBehavior} isUpdating={isUpdating}/></td>
+        <td><BasicInputCell initialValue={row.expectedActivity} isUpdating={isUpdating}/></td>
         <td><BasicInputCell initialValue={row.expectedTime} isUpdating={isUpdating}/></td>
-        <td><BasicInputCell initialValue={row.acutualBehavior} isUpdating={isUpdating}/></td>
+        <td><BasicInputCell initialValue={row.acutualActivity} isUpdating={isUpdating}/></td>
         <td><BasicInputCell initialValue={row.actuaTime} isUpdating={isUpdating}/></td>
         <td><BasicInputCell initialValue={row.timeCategory} isUpdating={isUpdating}/></td>
       </tr>
@@ -120,7 +120,7 @@ const TimeTrackerButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdat
     const onAddRowButtonClicked = useCallback(
       () => {
         setRows(rows.concat({
-          expectedBehavior: "", expectedTime: "", acutualBehavior: "", actuaTime: "", timeCategory: ""
+          expectedActivity: "", expectedTime: "", acutualActivity: "", actuaTime: "", timeCategory: ""
         }))
       }, [rows]
     );

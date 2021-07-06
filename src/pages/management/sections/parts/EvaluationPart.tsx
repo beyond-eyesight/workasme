@@ -8,7 +8,7 @@ import {PieChart} from "react-minimal-pie-chart";
 import {LabelRenderProps} from "react-minimal-pie-chart/types/Label";
 import FullOptionPieChart from "src/pages/management/sections/parts/components/charts/FullOptionPieChart";
 import {TimeTrackerRowDto} from "src/pages/management/sections/parts/dtos/TimeTrackerRowDto";
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Container, ListGroup, Row} from "react-bootstrap";
 
 const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) => {
   const {height} = props;
@@ -16,11 +16,14 @@ const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) =
     backgroundColor: 'grey',
     height: height.value,
   })}>
-    <Row>
-      <Col>
+    <Row css={css({
+      backgroundColor: 'red',
+      alignItems: 'center'
+    })}>
+      <Col lg={5}>
         <EvaluationPieChartComponent/>
       </Col>
-      <Col>
+      <Col lg={7} >
         <FeedbackComponent/>
       </Col>
     </Row>
@@ -51,7 +54,14 @@ const EvaluationPieChartComponent: React.FC<{ timeTrackRowDto?: TimeTrackerRowDt
 };
 
 const FeedbackComponent: React.FC = () => {
-  return <span>hahaha</span>
+  return <div>
+    <ListGroup as={"ol"} variant="flush">
+      <ListGroup.Item as={"li"}>Cras justo odio</ListGroup.Item>
+      <ListGroup.Item as={"li"}>Dapibus ac facilisis in</ListGroup.Item>
+      <ListGroup.Item as={"li"}>Morbi leo risus</ListGroup.Item>
+      <ListGroup.Item as={"li"}>Porta ac consectetur ac</ListGroup.Item>
+    </ListGroup>
+  </div>
 };
 
 

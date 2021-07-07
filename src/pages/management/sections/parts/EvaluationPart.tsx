@@ -13,11 +13,9 @@ import {Col, Container, Form, ListGroup, Row} from "react-bootstrap";
 const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) => {
   const {height} = props;
   return <Container css={css({
-    backgroundColor: 'grey',
     height: height.value,
   })}>
     <Row css={css({
-      backgroundColor: 'red',
       alignItems: 'center'
     })}>
       <Col lg={5}>
@@ -37,9 +35,8 @@ const EvaluationPieChartComponent: React.FC<{ timeTrackRowDto?: TimeTrackerRowDt
 
   // todo: timeTrackRowDto -> timeTrackCategory. makeOutByTimetrackCategory
   return <div css={css({
-    backgroundColor: 'yellow',
-    height: 300,
-    width: 300
+    height: new Pixel(300).value,
+    width: new Pixel(300).value
   })}>
     <FullOptionPieChart
       data={[

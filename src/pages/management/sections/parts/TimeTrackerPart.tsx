@@ -8,6 +8,7 @@ import {TimeTrackerRowDto} from "src/pages/management/sections/parts/dtos/TimeTr
 import {Button, Table, Toast} from "react-bootstrap";
 import {TaskListRowDto} from "src/pages/management/sections/parts/dtos/TaskListRowDto";
 import BasicInputCell from "src/pages/management/sections/parts/components/table/BasicInputCell";
+import {Container} from "react-bootstrap";
 
 // todo: props 따로 빼기
 const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
@@ -34,7 +35,7 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
   ]);
 
 
-  return <div css={css({
+  return <Container css={css({
     marginTop: marginVertical.value,
     marginBottom: marginVertical.value
   })}>
@@ -42,7 +43,7 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
     <TimeTrackerTable rows={rows} isUpdating={isUpdating}/>
     <TimeTrackerButtons rows={rows} setRows={setRows} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
 
-  </div>
+  </Container>
 };
 
 const TimeTrackerTable: React.FC<{ rows: TimeTrackerRowDto[], isUpdating: boolean }> = (props: { rows: TimeTrackerRowDto[], isUpdating: boolean } ) => {

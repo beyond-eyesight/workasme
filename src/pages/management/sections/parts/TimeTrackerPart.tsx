@@ -9,6 +9,8 @@ import {Button, Table, Toast} from "react-bootstrap";
 import {TaskListRowDto} from "src/pages/management/sections/parts/dtos/TaskListRowDto";
 import BasicInputCell from "src/pages/management/sections/parts/components/table/BasicInputCell";
 import {Container} from "react-bootstrap";
+import Percentage from "src/graphic/size/percentage";
+import ButtonComponent from "src/pages/components/ButtonComponent";
 
 // todo: props 따로 빼기
 const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVertical: Pixel }) => {
@@ -103,11 +105,11 @@ const TimeTrackerButtonsWhenNotUpdating: React.FC<{isUpdating: boolean, setIsUpd
     flexDirection: "row-reverse"
   })}>
 
-    <Button
-      onClick={onUpdateButtonClicked}
-    >
+    <ButtonComponent name={"Update"} backgroundColor={Colors.theme.main.work}
+                     defaultTextColor={Colors.theme.text.button.default}
+                     width={new Pixel(100)}>
       Update
-    </Button>
+    </ButtonComponent>
 
   </div>
 };

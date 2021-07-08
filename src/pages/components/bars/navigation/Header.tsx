@@ -65,6 +65,7 @@ const Header: React.FC = () => {
               name={"join"}
               backgroundColor={Colors.theme.main.work}
               defaultTextColor={Colors.theme.text.button.default}
+              hoverTextColor={Colors.theme.main.orgasme}
               width={new Percentage(100)}
               onClick={() => {console.log("clicked!")}}
             >

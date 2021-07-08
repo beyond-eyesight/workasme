@@ -15,22 +15,29 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectSign, signIn, signOut} from "src/pages/counter/signSlice";
 
 
-function judgeComponentOn(isSigned: boolean): ReactNode {
+
+const Menus: React.FC<{isSigned: boolean}> = (props: {isSigned: boolean}) => {
+  const {isSigned} = props;
   if (isSigned) {
-    return <Nav className="me-auto">
-      <LinkContainer to={"/management"}>
-        <Nav.Link>Management</Nav.Link>
-      </LinkContainer>
-      <LinkContainer to={"/contact"}>
-        <Nav.Link href="/contact">Contact</Nav.Link>
-      </LinkContainer>
-    </Nav>
+    return (
+      <>
+        <LinkContainer to={"/management"}>
+          <Nav.Link>Management</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to={"/contact"}>
+          <Nav.Link href="/contact">Contact</Nav.Link>
+        </LinkContainer>
+      </>
+    )
   }
 
-  return <div>kkkhhhhh</div>
-}
+  return <>
+    <LinkContainer to={"/contact"}>
+      <Nav.Link href="/contact">Contact</Nav.Link>
+    </LinkContainer>
+  </>
 
-
+};
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,7 +56,9 @@ const Header: React.FC = () => {
   // todo: Link의 색상 조정 - 가만히 있을 땐 연보라, 클릭하면 진보라. 혹은 연주황 -> 진보라
   const collapse: ReactElement<NavbarCollapse> = <Navbar.Collapse id="basic-navbar-nav">
     <Container>
-      {judgeComponentOn(isSigned)}
+      <Nav className="me-auto">
+        <Menus isSigned={isSigned}/>
+      </Nav>
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
@@ -66,15 +75,6 @@ const Header: React.FC = () => {
         </LinkContainer>
       </Nav>
     </Container>
-    <ButtonComponent
-      name={"join"}
-      backgroundColor={Colors.theme.main.work}
-      defaultTextColor={Colors.theme.text.button.default}
-      width={new Percentage(100)}
-      onClick={() => dispatch(signIn())}
-    >
-      hahaha
-    </ButtonComponent>
   </Navbar.Collapse>;
 
   return <div>

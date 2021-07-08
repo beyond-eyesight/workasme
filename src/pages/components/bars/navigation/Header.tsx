@@ -10,8 +10,12 @@ import {SerializedStyles} from "@emotion/serialize";
 import {LinkContainer} from 'react-router-bootstrap'
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
+import {decrement, increment} from "src/pages/counter/counterSlice";
+import {useDispatch} from "react-redux";
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
+
   const topNavigationContainerStyle = css({
     backgroundColor: Colors.theme.bar.top,
     height: Sizes.layout.bar.top.value
@@ -36,15 +40,28 @@ const Header: React.FC = () => {
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
-            <ButtonComponent name={"join"} backgroundColor={Colors.theme.main.work}
-                             defaultTextColor={Colors.theme.text.button.default}
-             width={new Percentage(100)}>
+            <ButtonComponent
+              name={"join"}
+              backgroundColor={Colors.theme.main.work}
+              defaultTextColor={Colors.theme.text.button.default}
+              width={new Percentage(100)}
+              onClick={() => {console.log("clicked!")}}
+            >
               Join
             </ButtonComponent>
           </Nav.Link>
         </LinkContainer>
       </Nav>
     </Container>
+    <ButtonComponent
+      name={"join"}
+      backgroundColor={Colors.theme.main.work}
+      defaultTextColor={Colors.theme.text.button.default}
+      width={new Percentage(100)}
+      onClick={() => dispatch(decrement())}
+    >
+      hahaha
+    </ButtonComponent>
   </Navbar.Collapse>;
 
   return <div>

@@ -11,7 +11,7 @@ import SignPage from "src/pages/sign/SignPage";
 import ManagementPage from "src/pages/management/ManagementPage";
 import {Counter} from "src/pages/counter/Counter";
 import {Provider} from "react-redux";
-import {store} from "src/pages/counter/store";
+import {store} from "src/context/store";
 
 ReactDOM.render(
   <React.StrictMode>

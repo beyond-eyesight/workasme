@@ -9,7 +9,7 @@ import {
   selectCount,
 } from './counterSlice';
 import styles from './Counter.module.css';
-import {selectSign} from "src/pages/counter/signSlice";
+import {selectSign} from "src/context/signSlice";
 
 export function Counter() {
   const count = useSelector(selectCount);

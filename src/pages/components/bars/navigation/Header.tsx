@@ -10,9 +10,8 @@ import {SerializedStyles} from "@emotion/serialize";
 import {LinkContainer} from 'react-router-bootstrap'
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
-import {decrement, increment} from "src/pages/counter/counterSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectSign, signIn, signOut} from "src/pages/counter/signSlice";
+import {selectSign} from "src/context/signSlice";
 
 
 

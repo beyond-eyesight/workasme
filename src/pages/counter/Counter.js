@@ -9,9 +9,13 @@ import {
   selectCount,
 } from './counterSlice';
 import styles from './Counter.module.css';
+import {selectSign} from "src/pages/counter/signSlice";
 
 export function Counter() {
   const count = useSelector(selectCount);
+
+  const sign = useSelector(selectSign);
+
   const dispatch = useDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
 
@@ -27,7 +31,7 @@ export function Counter() {
         >
           -
         </button>
-        <span className={styles.value}>{count}</span>
+        <span>{sign}</span>
         <button
           className={styles.button}
           aria-label="Increment value"

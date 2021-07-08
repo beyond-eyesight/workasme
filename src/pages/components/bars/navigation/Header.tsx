@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {css} from "@emotion/react";
 import Sizes from "src/constants/Sizes";
 import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
@@ -11,10 +11,30 @@ import {LinkContainer} from 'react-router-bootstrap'
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import {decrement, increment} from "src/pages/counter/counterSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {selectSign, signIn, signOut} from "src/pages/counter/signSlice";
+
+
+function judgeComponentOn(isSigned: boolean): ReactNode {
+  if (isSigned) {
+    return <Nav className="me-auto">
+      <LinkContainer to={"/management"}>
+        <Nav.Link>Management</Nav.Link>
+      </LinkContainer>
+      <LinkContainer to={"/contact"}>
+        <Nav.Link href="/contact">Contact</Nav.Link>
+      </LinkContainer>
+    </Nav>
+  }
+
+  return <div>kkkhhhhh</div>
+}
+
+
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
+  const isSigned = useSelector(selectSign);
 
   const topNavigationContainerStyle = css({
     backgroundColor: Colors.theme.bar.top,
@@ -29,14 +49,7 @@ const Header: React.FC = () => {
   // todo: Link의 색상 조정 - 가만히 있을 땐 연보라, 클릭하면 진보라. 혹은 연주황 -> 진보라
   const collapse: ReactElement<NavbarCollapse> = <Navbar.Collapse id="basic-navbar-nav">
     <Container>
-      <Nav className="me-auto">
-        <LinkContainer to={"/management"}>
-          <Nav.Link>Management</Nav.Link>
-        </LinkContainer>
-        <LinkContainer to={"/contact"}>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-        </LinkContainer>
-      </Nav>
+      {judgeComponentOn(isSigned)}
       <Nav>
         <LinkContainer to={"/sign"}>
           <Nav.Link>
@@ -58,7 +71,7 @@ const Header: React.FC = () => {
       backgroundColor={Colors.theme.main.work}
       defaultTextColor={Colors.theme.text.button.default}
       width={new Percentage(100)}
-      onClick={() => dispatch(decrement())}
+      onClick={() => dispatch(signIn())}
     >
       hahaha
     </ButtonComponent>

@@ -11,6 +11,7 @@ import SignPage from "src/pages/sign/SignPage";
 import ManagementPage from "src/pages/management/ManagementPage";
 import {Provider} from "react-redux";
 import {store} from "src/context/store";
+import DevExpressExampleButton from "src/pages/experimental/DevExpressExampleButton";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.render(
           <Route exact path={"/"}  component={HomePage}/>
           <Route exact path={"/sign"}  component={SignPage}/>
           <Route exact path={"/management"}  component={ManagementPage}/>
+          <Route exact path={"/contact"}  component={DevExpressExampleButton}/>
         </Switch>
       </Router>
     </Provider>

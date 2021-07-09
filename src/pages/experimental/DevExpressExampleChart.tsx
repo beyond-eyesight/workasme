@@ -10,29 +10,17 @@ import PieChart, {
 } from 'devextreme-react/pie-chart';
 
 export const dataSource = [{
-  country: 'USA',
-  medals: 110
+  timeCategory: 'Mental',
+  timeSpent: 2
 }, {
-  country: 'China',
-  medals: 100
+  timeCategory: 'Physical',
+  timeSpent: 8
 }, {
-  country: 'Russia',
-  medals: 72
+  timeCategory: 'Intellectual',
+  timeSpent: 10
 }, {
-  country: 'Britain',
-  medals: 47
-}, {
-  country: 'Australia',
-  medals: 46
-}, {
-  country: 'Germany',
-  medals: 41
-}, {
-  country: 'France',
-  medals: 40
-}, {
-  country: 'South Korea',
-  medals: 31
+  timeCategory: 'ETC',
+  timeSpent: 4
 }];
 
 
@@ -50,7 +38,7 @@ const DevExpressExampleChart: React.FC = () => {
         verticalAlignment="bottom"
         columnCount={4} />
       <Export enabled={true} />
-      <Series argumentField="country" valueField="medals">
+      <Series argumentField="timeCategory" valueField="timeSpent">
         <Label
           visible={true}
           position="columns"

@@ -6,6 +6,7 @@ import {css, jsx} from "@emotion/react";
 import FullOptionPieChart from "src/pages/management/sections/parts/components/charts/FullOptionPieChart";
 import {TimeTrackerRowDto} from "src/pages/management/sections/parts/dtos/TimeTrackerRowDto";
 import {Col, Container, Form, ListGroup, Row} from "react-bootstrap";
+import DevExpressPieChart from "src/pages/experimental/DevExpressPieChart";
 
 const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) => {
   const {height} = props;
@@ -16,7 +17,7 @@ const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) =
       alignItems: 'center'
     })}>
       <Col lg={5}>
-        <EvaluationPieChartComponent/>
+        <DevExpressPieChart />
       </Col>
       <Col lg={7} >
         <FeedbackComponent/>

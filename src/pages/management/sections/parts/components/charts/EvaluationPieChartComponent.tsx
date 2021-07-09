@@ -19,7 +19,7 @@ export const dataSource = [{
   timeCategory: 'Intellectual',
   timeSpent: 10
 }, {
-  timeCategory: 'ETC',
+  timeCategory: "ETC",
   timeSpent: 4
 }];
 

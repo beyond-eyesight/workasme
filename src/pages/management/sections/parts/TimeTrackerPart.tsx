@@ -121,7 +121,7 @@ const TimeTrackerButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdat
         expectedTime: "Hoho",
         acutualActivity: "Juju",
         actuaTime: "kkkk",
-        timeCategory: TimeCategory.ETC
+        timeCategory: ""
       })), [dispatch]
     );
 

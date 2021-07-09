@@ -1,11 +1,11 @@
 //todo: 나중에는 ExpectedTime을 ExpectedWork로 바꾸자
 
 export interface TimeSnippet {
-  readonly expectedActivity: string;
-  readonly expectedTime: string;
-  readonly acutualActivity: string;
-  readonly actuaTime: string;
-  readonly timeCategory: TimeCategory;
+  expectedActivity: string;
+  expectedTime: string;
+  acutualActivity: string;
+  actuaTime: string;
+  timeCategory: string;
 }
 
 export enum TimeCategory {

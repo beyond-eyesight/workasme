@@ -8,7 +8,7 @@ const initialTimeState = {
     expectedTime: "",
     acutualActivity: "",
     actuaTime: "",
-    timeCategory: TimeCategory.ETC
+    timeCategory: ""
   }]
 };
 

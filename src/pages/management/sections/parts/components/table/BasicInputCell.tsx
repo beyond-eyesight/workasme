@@ -14,7 +14,16 @@ const BasicInputCell: React.FC<{ initialValue: string, isUpdating: boolean, time
 
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setValue(e.target.value);
+
+    dispatch(addTime({
+      // @ts-ignore
+      expectedActivity: inputRef.current.value,
+      expectedTime: "Hoho",
+      acutualActivity: "Juju",
+      actuaTime: "kkkk",
+      timeCategory: "ETC"
+    }))
   };
 
   const handleOnlyEnterKeyPressed = (e: any) => {

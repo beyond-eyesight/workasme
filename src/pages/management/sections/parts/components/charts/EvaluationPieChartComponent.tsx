@@ -24,7 +24,7 @@ export const dataSource = [{
 }];
 
 
-const DevExpressPieChart: React.FC = () => {
+const EvaluationPieChartComponent: React.FC = () => {
   return (
     <PieChart id="pie"
               palette="Bright"
@@ -55,4 +55,4 @@ function customizeText(arg:any) {
   return `${arg.valueText} (${arg.percentText})`;
 }
 
-export default DevExpressPieChart;
+export default EvaluationPieChartComponent;

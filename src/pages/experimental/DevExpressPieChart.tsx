@@ -29,7 +29,7 @@ const DevExpressPieChart: React.FC = () => {
     <PieChart id="pie"
               palette="Bright"
               dataSource={dataSource}
-              title="Olympic Medals in 2008"
+              title="Daily Time Spent"
     >
       <Legend
         orientation="horizontal"

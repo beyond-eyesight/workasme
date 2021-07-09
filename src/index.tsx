@@ -11,7 +11,7 @@ import SignPage from "src/pages/sign/SignPage";
 import ManagementPage from "src/pages/management/ManagementPage";
 import {Provider} from "react-redux";
 import {store} from "src/context/store";
-import DevExpressExampleChart2 from "src/pages/experimental/DevExpressExampleChart2";
+import DevExpressExampleChart from "src/pages/experimental/DevExpressExampleChart";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,7 +23,7 @@ ReactDOM.render(
           <Route exact path={"/"}  component={HomePage}/>
           <Route exact path={"/sign"}  component={SignPage}/>
           <Route exact path={"/management"}  component={ManagementPage}/>
-          <Route exact path={"/contact"}  component={DevExpressExampleChart2}/>
+          <Route exact path={"/contact"}  component={DevExpressExampleChart}/>
         </Switch>
       </Router>
     </Provider>

@@ -5,5 +5,9 @@ export interface TimeTrackerRowDto {
   readonly expectedTime: string;
   readonly acutualActivity: string;
   readonly actuaTime: string;
-  readonly timeCategory: string
+  readonly timeCategory: TimeCategory
+}
+
+export enum TimeCategory {
+  ETC = "ETC"
 }

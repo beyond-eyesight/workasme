@@ -4,10 +4,9 @@ import Pixel from "src/graphic/size/pixel";
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
 import Colors from "src/constants/Colors";
-import {TimeTrackerRowDto} from "src/pages/management/sections/parts/dtos/TimeTrackerRowDto";
-import {Table} from "react-bootstrap";
+import {TimeCategory, TimeTrackerRowDto} from "src/pages/management/sections/parts/dtos/TimeTrackerRowDto";
+import {Container, Table} from "react-bootstrap";
 import BasicInputCell from "src/pages/management/sections/parts/components/table/BasicInputCell";
-import {Container} from "react-bootstrap";
 import ButtonComponent from "src/pages/components/ButtonComponent";
 
 // todo: props 따로 빼기
@@ -23,14 +22,14 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
       expectedTime: "2 hour",
       acutualActivity: "TimeTrackerPart",
       actuaTime: "3 hour",
-      timeCategory: "Intellectual",
+      timeCategory: TimeCategory.ETC,
     },
     {
       expectedActivity: "pray",
       expectedTime: "2 hour",
       acutualActivity: "pray",
       actuaTime: "3 hour",
-      timeCategory: "Mental",
+      timeCategory: TimeCategory.ETC,
     }
   ]);
 
@@ -47,8 +46,6 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
     })}>
       <TimeTrackerButtons rows={rows} setRows={setRows} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
     </div>
-
-
   </Container>
 };
 
@@ -129,7 +126,7 @@ const TimeTrackerButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdat
     const onAddRowButtonClicked = useCallback(
       () => {
         setRows(rows.concat({
-          expectedActivity: "", expectedTime: "", acutualActivity: "", actuaTime: "", timeCategory: ""
+          expectedActivity: "", expectedTime: "", acutualActivity: "", actuaTime: "", timeCategory: TimeCategory.ETC
         }))
       }, [rows, setRows]
     );

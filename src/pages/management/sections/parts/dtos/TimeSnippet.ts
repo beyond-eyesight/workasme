@@ -6,7 +6,6 @@ export interface TimeSnippet {
   readonly acutualActivity: string;
   readonly actuaTime: string;
   readonly timeCategory: TimeCategory;
-  sumBy(timeCategory: TimeCategory): TimeSnippet;
 }
 
 export enum TimeCategory {

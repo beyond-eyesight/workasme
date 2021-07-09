@@ -17,8 +17,7 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const timeSnippetsDto: TimeSnippet[] = useSelector(selectTime);
-  const [timeSnippets, setTimeSnippets] = useState(timeSnippetsDto);
+  const timeSnippets: TimeSnippet[] = useSelector(selectTime);
 
 
   return <Container css={css({
@@ -57,11 +56,11 @@ const TimeTrackerTable: React.FC<{ timeSnippets: TimeSnippet[], isUpdating: bool
     <tbody>
     {timeSnippets.map((row) => {
       return <tr>
-        <td><BasicInputCell initialValue={row.expectedActivity} isUpdating={isUpdating}/></td>
-        <td><BasicInputCell initialValue={row.expectedTime} isUpdating={isUpdating}/></td>
-        <td><BasicInputCell initialValue={row.acutualActivity} isUpdating={isUpdating}/></td>
-        <td><BasicInputCell initialValue={row.actuaTime} isUpdating={isUpdating}/></td>
-        <td><BasicInputCell initialValue={row.timeCategory} isUpdating={isUpdating}/></td>
+        <td><BasicInputCell initialValue={row.expectedActivity} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.expectedTime} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.acutualActivity} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.actuaTime} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.timeCategory} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
       </tr>
     })}
     </tbody>

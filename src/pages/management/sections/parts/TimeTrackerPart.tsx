@@ -19,7 +19,6 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
 
   const timeSnippets: TimeSnippet[] = useSelector(selectTime);
 
-
   return <Container css={css({
     marginTop: marginVertical.value,
     marginBottom: marginVertical.value

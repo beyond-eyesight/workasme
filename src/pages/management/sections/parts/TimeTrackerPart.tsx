@@ -39,15 +39,19 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
 const TimeTrackerForm: React.FC = () => {
   const [expectedActivity, setExpectedActivity] = useState("");
   const [expectedTime, setExpectedTime] = useState("");
-  const [actualActivity, setActualEctivity] = useState("");
+  const [actualActivity, setActualActivity] = useState("");
   const [actualTime, setActualTime] = useState("");
+
+  const timeSnippets: TimeSnippet[] = useSelector(selectTime);
+
+  const dispatch = useDispatch();
 
 
   return <Form>
     <Form.Group controlId="formExpectedActivity">
       <Form.Label>ExpectedActivity</Form.Label>
       <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedActivity(e.target.value)}}
-                    type="text" placeholder="Enter email" />
+                    type="text" />
     </Form.Group>
 
     <Form.Group controlId="formExpectedTime">
@@ -57,17 +61,17 @@ const TimeTrackerForm: React.FC = () => {
 
     <Form.Group controlId="formActualActivity">
       <Form.Label>ActualActivity</Form.Label>
-      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedActivity(e.target.value)}}
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setActualActivity(e.target.value)}}
                     type="text" />
     </Form.Group>
 
     <Form.Group controlId="formActualTime">
       <Form.Label>ActualTime</Form.Label>
-      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="text" />
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setActualTime(e.target.value)}} type="text" />
     </Form.Group>
 
     <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {console.log(e.target.value)}} as="select" multiple>
-      <option >1</option>
+      <option>1</option>
       <option>2</option>
       <option>3</option>
       <option>4</option>
@@ -75,8 +79,13 @@ const TimeTrackerForm: React.FC = () => {
     </Form.Control>
 
 
-    <Button onClick={() => {
-    }} variant="primary" type="submit">
+    <Button onClick={() => dispatch(addTime({
+      expectedActivity: expectedActivity,
+      expectedTime: expectedTime,
+      actualActivity: actualActivity,
+      actualTime: actualTime,
+      timeCategory: "ETC"
+    }))} variant="primary" type="button">
       Submit
     </Button>
   </Form>
@@ -105,8 +114,8 @@ const TimeTrackerTable: React.FC<{ timeSnippets: TimeSnippet[], isUpdating: bool
       return <tr>
         <td><BasicInputCell initialValue={row.expectedActivity} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
         <td><BasicInputCell initialValue={row.expectedTime} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
-        <td><BasicInputCell initialValue={row.acutualActivity} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
-        <td><BasicInputCell initialValue={row.actuaTime} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.actualActivity} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
+        <td><BasicInputCell initialValue={row.actualTime} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
         <td><BasicInputCell initialValue={row.timeCategory} isUpdating={isUpdating} timeSnippets={timeSnippets}/></td>
       </tr>
     })}

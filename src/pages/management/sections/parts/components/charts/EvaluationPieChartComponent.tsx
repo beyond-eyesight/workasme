@@ -32,18 +32,6 @@ const EvaluationPieChartComponent: React.FC = () => {
   const timeSnippets: TimeSnippet[] = useSelector(selectTime);
   const [timeByCategories, setTimeByCategories] = useState<TimeByCategory[]>([]);
 
-  // timeSnippets.map(timeSnippet => {
-  //   const newTimeByCategoy: TimeByCategory = {
-  //     time: timeSnippet.actualTime,
-  //     category: timeSnippet.timeCategory
-  //   };
-  //
-  //   setTimeByCategories(timeByCategories.concat(newTimeByCategoy))
-  // });
-  //
-  // console.log("EvaluationPieChartComponent");
-  // console.log(timeSnippets);
-
   return (
     <PieChart id="pie"
               palette="Bright"

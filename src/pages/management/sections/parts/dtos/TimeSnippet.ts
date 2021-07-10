@@ -2,9 +2,9 @@
 
 export interface TimeSnippet {
   expectedActivity: string;
-  expectedTime: string;
+  expectedTime: number;
   actualActivity: string;
-  actualTime: string;
+  actualTime: number;
   timeCategory: string;
 }
 

@@ -56,7 +56,11 @@ const TimeTrackerForm: React.FC = () => {
         <Form.Group controlId="formExpectedTime">
           <Form.Label>ExpectedTime</Form.Label>
           <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="text" />
+          <Form.Text className="text-muted">
+            You have to write Number(Hour)
+          </Form.Text>
         </Form.Group>
+
       </Col>
     </Row>
 
@@ -73,6 +77,9 @@ const TimeTrackerForm: React.FC = () => {
         <Form.Group controlId="formActualTime">
           <Form.Label>ActualTime</Form.Label>
           <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setActualTime(e.target.value)}} type="text" />
+          <Form.Text className="text-muted">
+            You have to write Number(Hour)
+          </Form.Text>
         </Form.Group>
       </Col>
     </Row>

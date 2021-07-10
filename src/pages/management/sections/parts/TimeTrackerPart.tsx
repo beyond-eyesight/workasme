@@ -39,6 +39,9 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
 const TimeTrackerForm: React.FC = () => {
   const [expectedActivity, setExpectedActivity] = useState("");
   const [expectedTime, setExpectedTime] = useState("");
+  const [actualActivity, setActualEctivity] = useState("");
+  const [actualTime, setActualTime] = useState("");
+
 
   return <Form>
     <Form.Group controlId="formExpectedActivity">
@@ -55,7 +58,7 @@ const TimeTrackerForm: React.FC = () => {
     <Form.Group controlId="formActualActivity">
       <Form.Label>ActualActivity</Form.Label>
       <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedActivity(e.target.value)}}
-                    type="text" placeholder="Enter email" />
+                    type="text" />
     </Form.Group>
 
     <Form.Group controlId="formActualTime">

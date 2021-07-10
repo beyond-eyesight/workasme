@@ -25,16 +25,9 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
   })}>
     <TimeTrackerForm />
     <TimeTrackerTable timeSnippets={timeSnippets} isUpdating={isUpdating}/>
-    <div css={css({
-      display: 'flex',
-      flexDirection: "row-reverse"
-    })}>
-
-      <TimeTrackerButtons timeSnippets={timeSnippets} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
-    </div>
+  {/*  타임트래커 버튼을 아예 없애버*/}
   </Container>
 };
-
 
 const TimeTrackerForm: React.FC = () => {
   const [expectedActivity, setExpectedActivity] = useState("");

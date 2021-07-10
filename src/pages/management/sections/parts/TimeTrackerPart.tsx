@@ -100,7 +100,7 @@ const TimeTrackerForm: React.FC = () => {
           expectedTime: expectedTime,
           actualActivity: actualActivity,
           actualTime: actualTime,
-          timeCategory: "ETC"
+          timeCategory: timeCategory
         }))} variant="primary" type="button">
           Submit
         </Button>

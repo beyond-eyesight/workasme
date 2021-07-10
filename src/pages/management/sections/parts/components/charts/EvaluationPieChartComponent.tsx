@@ -45,7 +45,7 @@ const EvaluationPieChartComponent: React.FC = () => {
         verticalAlignment="bottom"
         columnCount={4} />
       <Export enabled={true} />
-      <Series argumentField="actualActivity" valueField="actualTime">
+      <Series argumentField="timeCategory" valueField="actualTime">
         <Label
           visible={true}
           position="columns"

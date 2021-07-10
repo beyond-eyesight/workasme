@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import PieChart, {
   Legend,
@@ -8,6 +8,10 @@ import PieChart, {
   Font,
   Connector
 } from 'devextreme-react/pie-chart';
+import {TimeSnippet} from "src/pages/management/sections/parts/dtos/TimeSnippet";
+import {useSelector} from "react-redux";
+import {selectTime} from "src/context/timeSlice";
+import {TimeByCategory} from "src/pages/management/sections/parts/dtos/TimeByCaregoryDto";
 
 export const dataSource = [{
   timeCategory: 'Mental',
@@ -25,10 +29,25 @@ export const dataSource = [{
 
 
 const EvaluationPieChartComponent: React.FC = () => {
+  const timeSnippets: TimeSnippet[] = useSelector(selectTime);
+  const [timeByCategories, setTimeByCategories] = useState<TimeByCategory[]>([]);
+
+  // timeSnippets.map(timeSnippet => {
+  //   const newTimeByCategoy: TimeByCategory = {
+  //     time: timeSnippet.actualTime,
+  //     category: timeSnippet.timeCategory
+  //   };
+  //
+  //   setTimeByCategories(timeByCategories.concat(newTimeByCategoy))
+  // });
+  //
+  // console.log("EvaluationPieChartComponent");
+  // console.log(timeSnippets);
+
   return (
     <PieChart id="pie"
               palette="Bright"
-              dataSource={dataSource}
+              dataSource={timeSnippets}
               title="Daily Time Spent"
     >
       <Legend
@@ -38,7 +57,7 @@ const EvaluationPieChartComponent: React.FC = () => {
         verticalAlignment="bottom"
         columnCount={4} />
       <Export enabled={true} />
-      <Series argumentField="timeCategory" valueField="timeSpent">
+      <Series argumentField="actualActivity" valueField="actualTime">
         <Label
           visible={true}
           position="columns"

@@ -8,6 +8,7 @@ import EvaluationPieChartComponent from "./components/charts/EvaluationPieChartC
 
 const EvaluationPart: React.FC<{ height: Pixel }> = (props: { height: Pixel }) => {
   const {height} = props;
+
   return <Container css={css({
     height: height.value,
   })}>

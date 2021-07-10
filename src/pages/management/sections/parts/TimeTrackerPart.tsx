@@ -49,8 +49,29 @@ const TimeTrackerForm: React.FC = () => {
 
     <Form.Group controlId="formExpectedTime">
       <Form.Label>ExpectedTime</Form.Label>
-      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="password" placeholder="Password" />
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="text" />
     </Form.Group>
+
+    <Form.Group controlId="formActualActivity">
+      <Form.Label>ActualActivity</Form.Label>
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedActivity(e.target.value)}}
+                    type="text" placeholder="Enter email" />
+    </Form.Group>
+
+    <Form.Group controlId="formActualTime">
+      <Form.Label>ActualTime</Form.Label>
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="text" />
+    </Form.Group>
+
+    <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {console.log(e.target.value)}} as="select" multiple>
+      <option >1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </Form.Control>
+
+
     <Button onClick={() => {
     }} variant="primary" type="submit">
       Submit

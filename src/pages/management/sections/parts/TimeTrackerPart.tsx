@@ -5,7 +5,7 @@ import Pixel from "src/graphic/size/pixel";
 import {css, jsx} from "@emotion/react";
 import Colors from "src/constants/Colors";
 import {TimeCategory, TimeSnippet} from "src/pages/management/sections/parts/dtos/TimeSnippet";
-import {Button, ButtonGroup, Container, Dropdown, Table} from "react-bootstrap";
+import {Button, ButtonGroup, Container, Dropdown, Form, Table} from "react-bootstrap";
 import BasicInputCell from "src/pages/management/sections/parts/components/table/BasicInputCell";
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
@@ -24,7 +24,7 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
     marginTop: marginVertical.value,
     marginBottom: marginVertical.value
   })}>
-
+    <TimeTrackerForm />
     <TimeTrackerTable timeSnippets={timeSnippets} isUpdating={isUpdating}/>
     <div css={css({
       display: 'flex',
@@ -33,6 +33,29 @@ const TimeTrackerPart: React.FC<{ marginVertical: Pixel }> = (props: { marginVer
       <TimeTrackerButtons timeSnippets={timeSnippets} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>
     </div>
   </Container>
+};
+
+
+const TimeTrackerForm: React.FC = () => {
+  const [expectedActivity, setExpectedActivity] = useState("");
+  const [expectedTime, setExpectedTime] = useState("");
+
+  return <Form>
+    <Form.Group controlId="formExpectedActivity">
+      <Form.Label>ExpectedActivity</Form.Label>
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedActivity(e.target.value)}}
+                    type="text" placeholder="Enter email" />
+    </Form.Group>
+
+    <Form.Group controlId="formExpectedTime">
+      <Form.Label>ExpectedTime</Form.Label>
+      <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setExpectedTime(e.target.value)}} type="password" placeholder="Password" />
+    </Form.Group>
+    <Button onClick={() => {
+    }} variant="primary" type="submit">
+      Submit
+    </Button>
+  </Form>
 };
 
 const TimeTrackerTable: React.FC<{ timeSnippets: TimeSnippet[], isUpdating: boolean }> = (props: { timeSnippets: TimeSnippet[], isUpdating: boolean } ) => {
@@ -116,13 +139,13 @@ const TimeTrackerButtonsWhenUpdating: React.FC<{ isUpdating: boolean, setIsUpdat
     const dispatch = useDispatch();
 
     const onAddRowButtonClicked = useCallback(
-      () => dispatch(addTime({
+      () => addTime({
         expectedActivity: "Haha",
         expectedTime: "Hoho",
         acutualActivity: "Juju",
         actuaTime: "kkkk",
         timeCategory: ""
-      })), [dispatch]
+      }), [dispatch]
     );
 
     const onCompleteButtonClicked = useCallback(

@@ -16,14 +16,15 @@ const BasicInputCell: React.FC<{ initialValue: string, isUpdating: boolean, time
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
 
-    dispatch(addTime({
+    //여기서 디스패치는 안하고, setState만
+    addTime({
       // @ts-ignore
       expectedActivity: inputRef.current.value,
       expectedTime: "Hoho",
       acutualActivity: "Juju",
       actuaTime: "kkkk",
       timeCategory: "ETC"
-    }))
+    })
   };
 
   const handleOnlyEnterKeyPressed = (e: any) => {

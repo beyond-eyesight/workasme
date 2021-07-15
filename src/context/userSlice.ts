@@ -7,13 +7,13 @@ const initialUserState = {
   status: "Initialized"
 };
 
+// todo: 추후에 액션에 페이로드 여러 값 넣어도 되게...
 export const userSlice = createSlice({
   name: 'user',
   initialState: initialUserState,
   reducers: {
     signIn: (state,
              action) => {
-      console.log("이게 호출돼야함!!")
       const {username, password} = action.payload;
       state.username = username;
       state.password = password;

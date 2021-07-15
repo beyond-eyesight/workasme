@@ -69,7 +69,7 @@ const Header: React.FC = () => {
               width={new Percentage(100)}
               onClick={() => {console.log("clicked!")}}
             >
-              join
+              Join
             </ButtonComponent>
           </Nav.Link>
         </LinkContainer>

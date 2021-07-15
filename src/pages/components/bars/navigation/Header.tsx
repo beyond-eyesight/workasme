@@ -39,7 +39,6 @@ const Menus: React.FC<{isSigned: boolean}> = (props: {isSigned: boolean}) => {
 };
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
   const isSigned = useSelector(selectSign);
 
   const topNavigationContainerStyle = css({

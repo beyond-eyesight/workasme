@@ -9,6 +9,8 @@ import {Form} from "react-bootstrap";
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import createAxios from "src/api/adapterFactory/axiosFactory";
+import {useDispatch, useSelector} from "react-redux";
+import { increment } from "src/context/conterSlice";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -50,6 +52,7 @@ const PasswordInput: React.FC<{setPassword: Dispatch<SetStateAction<string>>}> =
 
 const SignInButton: React.FC<{email: string, password: string}> = (props: {email: string, password: string}) => {
   const {email, password} = props;
+  const dispatch = useDispatch();
 
   const axiosInstance = createAxios({
     auth: {
@@ -63,10 +66,10 @@ const SignInButton: React.FC<{email: string, password: string}> = (props: {email
                           width={new Percentage(100)}
                           onClick={async () => {
                             const response = await axiosInstance.get("http://localhost:8081/try")
-                            console.log("mail")
-                            console.log(email);
-                            console.log(password);
-                            console.log(response)
+                            if (response.status === 200) {
+                              console.log("200!");
+                              dispatch(increment());
+                            }
                           }}
   >
     Sign In

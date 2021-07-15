@@ -13,6 +13,7 @@ import Percentage from "src/graphic/size/percentage";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSign} from "src/context/signSlice";
 import {selectUsername} from "src/context/usernameSlice";
+import {selectPassword} from "src/context/passwordSlice";
 
 
 const Menus: React.FC<{isSigned: boolean}> = (props: {isSigned: boolean}) => {
@@ -41,8 +42,6 @@ const Menus: React.FC<{isSigned: boolean}> = (props: {isSigned: boolean}) => {
 const Header: React.FC = () => {
   const isSigned = useSelector(selectSign);
 
-  const username = useSelector(selectUsername);
-
   const topNavigationContainerStyle = css({
     backgroundColor: Colors.theme.bar.top,
     height: Sizes.layout.bar.top.value
@@ -70,7 +69,7 @@ const Header: React.FC = () => {
               width={new Percentage(100)}
               onClick={() => {console.log("clicked!")}}
             >
-              {username}
+              join
             </ButtonComponent>
           </Nav.Link>
         </LinkContainer>

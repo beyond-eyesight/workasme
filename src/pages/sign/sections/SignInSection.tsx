@@ -9,8 +9,8 @@ import {Form} from "react-bootstrap";
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import createAxios from "src/api/adapterFactory/axiosFactory";
-import {useDispatch, useSelector} from "react-redux";
-import { signIn } from "src/context/usernameSlice";
+import {useDispatch} from "react-redux";
+import { passwordSignIn } from "src/context/passwordSlice";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -68,7 +68,7 @@ const SignInButton: React.FC<{email: string, password: string}> = (props: {email
                             const response = await axiosInstance.get("http://localhost:8081/try")
                             if (response.status === 200) {
                               console.log("200!");
-                              dispatch(signIn("This is String!"));
+                              dispatch(passwordSignIn("This is hahaha"));
                             }
                           }}
   >

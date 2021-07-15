@@ -7,15 +7,14 @@ const usernameSlice = createSlice({
     value: ''
   },
   reducers: {
-    signIn: (state,
+    usernameSignIn: (state,
              action) => {
       state.value = action.payload;
-      console.log("dispatch good")
     }
   },
 });
 
-export const { signIn } = usernameSlice.actions;
+export const { usernameSignIn } = usernameSlice.actions;
 
 export const selectUsername = (state: any) => state.username.value;
 

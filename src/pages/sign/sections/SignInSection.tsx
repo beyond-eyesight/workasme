@@ -10,8 +10,8 @@ import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import createAxios from "src/api/adapterFactory/axiosFactory";
 import {useDispatch} from "react-redux";
-import { passwordSignIn } from "src/context/passwordSlice";
-import { usernameSignIn } from "src/context/usernameSlice";
+import { passwordSign } from "src/context/passwordSlice";
+import { usernameSign } from "src/context/usernameSlice";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -39,7 +39,7 @@ const EmailInput: React.FC<{setEmail: Dispatch<SetStateAction<string>>}> = (prop
   const {setEmail} = props;
   return <Form.Group controlId="formBasicEmail">
     <Form.Label>Email</Form.Label>
-    <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setEmail(e.target.value)}} type="email"/>
+    <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setEmail(e.target.value)}} type="email" placeholder="username@example.com"/>
   </Form.Group>;
 };
 
@@ -61,20 +61,23 @@ const SignInButton: React.FC<{email: string, password: string}> = (props: {email
       password: password
     }
   });
+
+  const signIn = async () => {
+    const response = await axiosInstance.post("http://localhost:8081/auth/try", {
+      "signature": email,
+      "password": password,
+    });
+    if (response.status === 200) {
+      dispatch(usernameSign(email));
+      dispatch(passwordSign(password));
+    }
+  };
+
   return <ButtonComponent name={"signIn"} backgroundColor={Colors.theme.main.orgasme}
                           defaultTextColor={Colors.theme.text.button.default}
                           hoverTextColor={Colors.theme.main.work}
                           width={new Percentage(100)}
-                          onClick={async () => {
-                            const response = await axiosInstance.post("http://localhost:8081/auth/signUp", {
-                              "signature": email,
-                              "password": password,
-                            });
-                            if (response.status === 200) {
-                              dispatch(usernameSignIn(email));
-                              dispatch(passwordSignIn(password));
-                            }
-                          }}
+                          onClick={signIn}
   >
     Sign In
   </ButtonComponent>;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
@@ -23,11 +23,12 @@ const SignUpForm: React.FC = () => {
       <EmailInput/>
       <PasswordInput/>
       <FullNameInput/>
-      <WhereAreYouInInput/>
+      {/*todo: 나중에 다 적용하기*/}
+      {/*<WhereAreYouInInput/>*/}
     </Form>
     <CreateAccountButton/>
-    <SplitWithOrLine/>
-    <ContinueWithGoogleButton/>
+    {/*<SplitWithOrLine/>*/}
+    {/*<ContinueWithGoogleButton/>*/}
   </Container>;
 };
 
@@ -180,9 +181,10 @@ const FullNameInput: React.FC = () => {
 };
 
 const WhereAreYouInInput: React.FC = () => {
+  const [selected, setSelected] = useState();
   return <Form.Group controlId="SelectBelongsTo">
     <Form.Label>Where are you in?</Form.Label>
-    <Form.Control as="select" custom>
+    <Form.Control onChange={(e: React.ChangeEvent<HTMLInputElement>) => {console.log(e.target.value)}} as="select" custom>
       <option>Independent(No where)</option>
       <option>Company</option>
       <option>Club</option>

@@ -11,6 +11,7 @@ import Percentage from "src/graphic/size/percentage";
 import createAxios from "src/api/adapterFactory/axiosFactory";
 import {useDispatch} from "react-redux";
 import { passwordSignIn } from "src/context/passwordSlice";
+import { usernameSignIn } from "src/context/usernameSlice";
 
 const SignInSection: React.FC = () => {
   return <Container>
@@ -65,10 +66,13 @@ const SignInButton: React.FC<{email: string, password: string}> = (props: {email
                           hoverTextColor={Colors.theme.main.work}
                           width={new Percentage(100)}
                           onClick={async () => {
-                            const response = await axiosInstance.get("http://localhost:8081/auth/try")
+                            const response = await axiosInstance.post("http://localhost:8081/auth/signUp", {
+                              "signature": email,
+                              "password": password,
+                            });
                             if (response.status === 200) {
-                              console.log("200!");
-                              dispatch(passwordSignIn("This is hahaha"));
+                              dispatch(usernameSignIn(email));
+                              dispatch(passwordSignIn(password));
                             }
                           }}
   >

@@ -65,7 +65,7 @@ const SignInButton: React.FC<{email: string, password: string}> = (props: {email
                           hoverTextColor={Colors.theme.main.work}
                           width={new Percentage(100)}
                           onClick={async () => {
-                            const response = await axiosInstance.get("http://localhost:8081/try")
+                            const response = await axiosInstance.get("http://localhost:8081/auth/try")
                             if (response.status === 200) {
                               console.log("200!");
                               dispatch(passwordSignIn("This is hahaha"));

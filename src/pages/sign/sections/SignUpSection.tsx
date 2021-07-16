@@ -13,6 +13,7 @@ import createAxios from "src/api/adapterFactory/axiosFactory";
 import {usernameSign} from "src/context/usernameSlice";
 import {passwordSign} from "src/context/passwordSlice";
 import {useDispatch} from "react-redux";
+import {sign} from "crypto";
 
 const SignUpSection: React.FC = () => {
   return <Container>
@@ -152,15 +153,9 @@ const ButtonContent: React.FC = () => {
 
 const CreateAccountButton: React.FC<{email: string, password: string, firstName:string, lastName: string}> = (props: {email: string, password: string, firstName:string, lastName: string}) => {
   const {email, password, firstName, lastName} = props;
-  const axiosInstance = createAxios({
-    // auth: {
-    //   username: "wom2277@naver.com",
-    //   password: "12345678*at"
-    // }
-  });
+  const axiosInstance = createAxios({});
 
-
-  const signUp = async () => {
+  const signUp = async () =>  {
     const response = await axiosInstance.post("http://localhost:8081/auth/signUp", {
       signature: email,
       password: password,
@@ -168,10 +163,10 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
       lastName: lastName
     });
 
-    if (response.status === 200) {
-      console.log("200!!!!!")
+    if (response.status === 201) {
+      dispatch(usernameSign(email));
+      dispatch(passwordSign(password));
     }
-
   };
 
   const dispatch = useDispatch();
@@ -180,19 +175,7 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
                           defaultTextColor={Colors.theme.text.button.default}
                           hoverTextColor={Colors.theme.main.work}
                           width={new Percentage(100)}
-                          onClick={async () =>  {
-                            const response = await axiosInstance.post("http://localhost:8081/auth/signUp", {
-                              signature: email,
-                              password: password,
-                              firstName: firstName,
-                              lastName: lastName
-                            });
-
-                            if (response.status === 201) {
-                              dispatch(usernameSign(email));
-                              dispatch(passwordSign(password));
-                            }
-                          }}
+                          onClick={signUp}
   >
     Create Account
   </ButtonComponent>;

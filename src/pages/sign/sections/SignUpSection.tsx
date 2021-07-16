@@ -10,6 +10,9 @@ import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import googleLogo from "src/assets/icons/google.png";
 import createAxios from "src/api/adapterFactory/axiosFactory";
+import {usernameSign} from "src/context/usernameSlice";
+import {passwordSign} from "src/context/passwordSlice";
+import {useDispatch} from "react-redux";
 
 const SignUpSection: React.FC = () => {
   return <Container>
@@ -171,6 +174,8 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
 
   };
 
+  const dispatch = useDispatch();
+
   return <ButtonComponent name={"createAccount"} backgroundColor={Colors.theme.main.orgasme}
                           defaultTextColor={Colors.theme.text.button.default}
                           hoverTextColor={Colors.theme.main.work}
@@ -183,8 +188,10 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
                               lastName: lastName
                             });
 
-
-
+                            if (response.status === 201) {
+                              dispatch(usernameSign(email));
+                              dispatch(passwordSign(password));
+                            }
                           }}
   >
     Create Account

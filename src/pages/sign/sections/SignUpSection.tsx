@@ -5,15 +5,14 @@ import {css, jsx} from "@emotion/react";
 import Container from "react-bootstrap/Container";
 import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
-import {Col, Form, Row} from "react-bootstrap";
+import {Alert, Button, Col, Form, Modal, Nav, Row} from "react-bootstrap";
 import ButtonComponent from "src/pages/components/ButtonComponent";
 import Percentage from "src/graphic/size/percentage";
 import googleLogo from "src/assets/icons/google.png";
 import createAxios from "src/api/adapterFactory/axiosFactory";
-import {usernameSign} from "src/context/usernameSlice";
-import {passwordSign} from "src/context/passwordSlice";
 import {useDispatch} from "react-redux";
-import {sign} from "crypto";
+import { usernameSign } from "src/context/usernameSlice";
+import { passwordSign } from "src/context/passwordSlice";
 
 const SignUpSection: React.FC = () => {
   return <Container>
@@ -28,6 +27,10 @@ const SignUpForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return <Container>
     <Form>
       <EmailInput setEmail={setEmail}/>
@@ -35,12 +38,33 @@ const SignUpForm: React.FC = () => {
       <FullNameInput setFirstName={setFirstName} setLastName={setLastName}/>
       {/*todo: 나중에 다 적용하기*/}
       {/*<WhereAreYouInInput/>*/}
+      <SignUpButton email={email} password={password} firstName={firstName} lastName={lastName} handleShow={handleShow}/>
+      <SignUpButtonModal show={show} handleClose={handleClose}/>
     </Form>
-    <CreateAccountButton email={email} password={password} firstName={firstName} lastName={lastName}/>
     {/*<SplitWithOrLine/>*/}
     {/*<ContinueWithGoogleButton/>*/}
   </Container>;
 };
+
+
+const SignUpButtonModal:React.FC<{show: boolean, handleClose: () => void}> = (props: {show: boolean, handleClose: () => void}) => {
+  const {show, handleClose} = props;
+  return (
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Good Job</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sign Up Succeed, Enjoy my service</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            Move To Management
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
 
 // https://codepen.io/scottzirkel/pen/yNxNME
 // todo: Or 컨텐트가 안보임. ::before , ::after 문제인듯.
@@ -151,10 +175,11 @@ const ButtonContent: React.FC = () => {
 };
 
 
-const CreateAccountButton: React.FC<{email: string, password: string, firstName:string, lastName: string}> = (props: {email: string, password: string, firstName:string, lastName: string}) => {
-  const {email, password, firstName, lastName} = props;
-  const axiosInstance = createAxios({});
+const SignUpButton: React.FC<{email: string, password: string, firstName:string, lastName: string, handleShow: () => void}>
+  = (props: {email: string, password: string, firstName:string, lastName: string, handleShow: () => void}) => {
 
+  const {email, password, firstName, lastName, handleShow} = props;
+  const axiosInstance = createAxios({});
   const signUp = async () =>  {
     const response = await axiosInstance.post("http://localhost:8081/auth/signUp", {
       signature: email,
@@ -166,6 +191,7 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
     if (response.status === 201) {
       dispatch(usernameSign(email));
       dispatch(passwordSign(password));
+      handleShow();
     }
   };
 
@@ -177,9 +203,34 @@ const CreateAccountButton: React.FC<{email: string, password: string, firstName:
                           width={new Percentage(100)}
                           onClick={signUp}
   >
-    Create Account
+    Sign Up
   </ButtonComponent>;
 };
+
+function AlertDismissible() {
+  const [show, setShow] = useState(true);
+
+  return (
+    <>
+      <Alert show={show} variant="success">
+        <Alert.Heading>How's it going?!</Alert.Heading>
+        <p>
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+          lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
+          fermentum.
+        </p>
+        <hr />
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => setShow(false)} variant="outline-success">
+            Close me y'all!
+          </Button>
+        </div>
+      </Alert>
+
+      {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>}
+    </>
+  );
+}
 
 const EmailInput: React.FC<{setEmail: Dispatch<SetStateAction<string>>}> = (props: {setEmail: Dispatch<SetStateAction<string>>}) => {
   const {setEmail} = props;

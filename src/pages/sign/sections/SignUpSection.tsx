@@ -64,29 +64,6 @@ const SignUpForm: React.FC = () => {
 };
 
 
-const SignUpButtonModal:React.FC<{show: boolean, handleClose: () => void}> = (props: {show: boolean, handleClose: () => void}) => {
-  const {show, handleClose} = props;
-  return (
-    <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Good Job</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Sign Up Succeed, Enjoy my service</Modal.Body>
-        <Modal.Footer>
-          <LinkContainer to="/management">
-            <Button variant="primary" onClick={handleClose}>
-              Move To Management
-            </Button>
-          </LinkContainer>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-};
-
-
-
 
 const SignUpButton: React.FC<{email: string, password: string, firstName:string, lastName: string, handleShow: () => void}>
   = (props: {email: string, password: string, firstName:string, lastName: string, handleShow: () => void}) => {
@@ -110,9 +87,9 @@ const SignUpButton: React.FC<{email: string, password: string, firstName:string,
 
   const dispatch = useDispatch();
 
-  return <ButtonComponent name={"createAccount"} backgroundColor={Colors.theme.main.orgasme}
+  return <ButtonComponent name={"createAccount"} backgroundColor={Colors.theme.main.work}
                           defaultTextColor={Colors.theme.text.button.default}
-                          hoverTextColor={Colors.theme.main.work}
+                          hoverTextColor={Colors.theme.main.orgasme}
                           width={new Percentage(100)}
                           onClick={signUp}
   >
@@ -152,6 +129,33 @@ const FullNameInput: React.FC<{setFirstName: Dispatch<SetStateAction<string>>, s
       </Col>
     </Row>
   </Form.Group>;
+};
+
+
+const SignUpButtonModal:React.FC<{show: boolean, handleClose: () => void}> = (props: {show: boolean, handleClose: () => void}) => {
+  const {show, handleClose} = props;
+  return (
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Good Job</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sign Up Succeed, Enjoy my service</Modal.Body>
+        <Modal.Footer>
+          <LinkContainer to="/management">
+            <ButtonComponent name={"moveToManagement"} backgroundColor={Colors.theme.main.work}
+                             defaultTextColor={Colors.theme.text.button.default}
+                             hoverTextColor={Colors.theme.main.orgasme}
+                             width={new Percentage(100)}
+                             onClick={() => {}}
+            >
+              Move To Management
+            </ButtonComponent>
+          </LinkContainer>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 };
 
 // https://codepen.io/scottzirkel/pen/yNxNME

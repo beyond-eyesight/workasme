@@ -13,6 +13,7 @@ import createAxios from "src/api/adapterFactory/axiosFactory";
 import {useDispatch} from "react-redux";
 import { usernameSign } from "src/context/usernameSlice";
 import { passwordSign } from "src/context/passwordSlice";
+import {LinkContainer} from "react-router-bootstrap";
 
 const SignUpSection: React.FC = () => {
   return <Container>
@@ -20,6 +21,8 @@ const SignUpSection: React.FC = () => {
     <SignUpForm/>
   </Container>;
 };
+
+
 
 const Title: React.FC = () => {
   return <Container>
@@ -71,9 +74,11 @@ const SignUpButtonModal:React.FC<{show: boolean, handleClose: () => void}> = (pr
         </Modal.Header>
         <Modal.Body>Sign Up Succeed, Enjoy my service</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
-            Move To Management
-          </Button>
+          <LinkContainer to="/management">
+            <Button variant="primary" onClick={handleClose}>
+              Move To Management
+            </Button>
+          </LinkContainer>
         </Modal.Footer>
       </Modal>
     </>

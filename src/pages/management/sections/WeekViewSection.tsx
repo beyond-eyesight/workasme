@@ -635,38 +635,56 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
 
 function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, setIsFocused: Dispatch<SetStateAction<any>>) {
   if (ref.current && !ref.current.contains(event.target)) {
-    if ((ref.current.value !== ref.current.defaultValue) && (ref.current.value !== '' && ref.current.value !== undefined)) {
-      console.log("hahahaha", ref.current.value);
-      alert("should api call modified");
-      let newTodoDtos: TodoDto[];
+    if ((ref.current.defaultValue === '' ||  ref.current.defaultValue === undefined) && ((ref.current.value !== '' && ref.current.value !== undefined))) {
+      console.log("생성생성")
+      // 생성
       const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
-      console.log("here2", dailyRecord);
-      console.log("todoDto", todoDto);
       if (dailyRecord === undefined) {
-        console.log("here!!")
+        //todo: 생성해서 넣기
+        console.log("qqqqqqq")
         timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: ref.current.value}]})
       } else {
-        //todo: 이상한데? 왜 여긴 id가 있어...
-
-        dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: ref.current.value})
-        console.log("updated dailyRecord", dailyRecord);
+        dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: ref.current.value});
         timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
       }
 
-
-      // let newTodoDtos: TodoDto[] | undefined = todoDtosAtDate;
-      // let newTodoDtos: TodoDto[] | undefined = todoDtosAtDate!.map((todoDto, todoDtoIndex) => {
-      //   if (todoDtoIndex === index) {
-      //     //여기에서 api 콜한 결과를 리턴
-      //     return {id: todoDto.id, isChecked: todoDto.isChecked, content: ref.current.value}
-      //   } else {
-      //     return todoDto;
-      //   }
-      // })
-
       updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
     }
+
+    if ((ref.current.defaultValue !== '' &&  ref.current.defaultValue !== undefined) && ((ref.current.value !== '' && ref.current.value !== undefined)) && (ref.current.value !== ref.current.defaultValue)) {
+      // 수정
+      // alert("should api call modified");
+      console.log("수정수정");
+      const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
+      if (dailyRecord === undefined) {
+        throw Error("알 수 없는 오류입니다.");
+      }
+      console.log("여기야", todoDto);
+      updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
+      // todo: api call and id 기준으로 같은걸 바꾸기
+    }
+
+
+
+
+    //
+    // if ((ref.current.value !== ref.current.defaultValue) && (ref.current.value !== '' && ref.current.value !== undefined)) {
+    //   const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
+    //   if (dailyRecord === undefined) {
+    //     console.log("here!!")
+    //     timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: ref.current.value}]})
+    //   } else {
+    //     //todo: 이상한데? 왜 여긴 id가 있어...
+    //
+    //     dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: ref.current.value})
+    //     console.log("updated dailyRecord", dailyRecord);
+    //     timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
+    //   }
+    //
+    //   updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
+    // }
     setIsFocused(false);
+
     // ref.current.defaultValue = ref.current.value;
   }
 }

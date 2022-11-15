@@ -1,7 +1,7 @@
 import dayjs, {Dayjs} from "dayjs";
 import {TimeRecordTemplate} from "src/model/TimeRecordTemplate";
 import moment from "moment";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import {RelativeDay} from "src/model/RelativeDay";
 import Percentage from "src/graphic/size/percentage";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
@@ -70,7 +70,7 @@ export class TimeRecord {
     return this._startDateTime.format("YYYY-MM-DD");
   }
 
-  public getMatching(savedTimes: WeekViewDto, standardDate: Dayjs): TimeBlockDto | undefined {
+  public getMatching(savedTimes: WeekViewDto, standardDate: Dayjs): TimeDto | undefined {
     if (this.isFirstTime()) {
       const edgeTimeOfDay = this.getEdgeTimeOfDay(savedTimes, standardDate);
       if (edgeTimeOfDay !== undefined) {
@@ -126,7 +126,7 @@ export class TimeRecord {
     return false;
   }
 
-  private getEdgeTimeOfDay(savedTimes: WeekViewDto, standardDate: Dayjs): TimeBlockDto | undefined {
+  private getEdgeTimeOfDay(savedTimes: WeekViewDto, standardDate: Dayjs): TimeDto | undefined {
     let currentDate = this.getCurrentDate();
     const firstDateOfThisWeek: Dayjs = TimeRecord.getFirstDateOfThisWeek(standardDate);
     while (TimeRecord.getFormattedDate(currentDate, RelativeDay.YESTERDAY) !== TimeRecord.getFormattedDate(firstDateOfThisWeek, RelativeDay.TODAY) && firstDateOfThisWeek.isBefore(currentDate.add(1, "days"))) {
@@ -221,7 +221,7 @@ export class TimeRecord {
     throw Error("이상한 상황");
   }
 
-  private getEndDateTimeOfTimeBlock(timeBlock: TimeBlockDto): moment.Moment {
+  private getEndDateTimeOfTimeBlock(timeBlock: TimeDto): moment.Moment {
     const maxEndDateTime: moment.Moment = this.getMaxEndDateTime();
     const timeBlockEndDateTime = moment(timeBlock.endDateTime);
     return timeBlockEndDateTime.isBefore(maxEndDateTime) ? timeBlockEndDateTime : maxEndDateTime;

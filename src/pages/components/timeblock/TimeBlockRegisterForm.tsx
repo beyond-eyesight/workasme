@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
@@ -9,19 +9,21 @@ import Colors from "src/constants/Colors";
 import '../../../index.css';
 import {TimeRecord} from "src/model/TimeRecord";
 import {options} from "src/pages/components/timeblock/CategoryOptions";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
+import TimeApi from "src/api/TimeApi";
 
 interface FormProps {
   earliestRecord: TimeRecord,
   latestRecord: TimeRecord,
   closeModal: (e) => void,
   timeBlocks: WeekViewDto,
-  updateTimeBlocks: (timeBlocks: WeekViewDto) => void
+  updateTimeBlocks: (timeBlocks: WeekViewDto) => void,
+  timeApi: TimeApi
 }
 
 
-const onRegister = (e, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void) => {
+const onRegister = async (e, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi) => {
   if (e.target.innerText !== 'record') {
     return;
   }
@@ -45,14 +47,14 @@ const onRegister = (e, closeModal: (e) => void, timeBlocks: WeekViewDto, updateT
   const startDateTime = startYear + '-' + startMonth + '-' + startDay + "T" + startTime + ":00";
   const endDateTime = endYear + '-' + endMonth + '-' + endDay + "T" + endTime + ":00";
 
-  alert("should api call created")
-  const newTimeBlock: TimeBlockDto = {id: 0, title: title,
+  const newTimeBlock: TimeDto = await timeApi.recordTime({
+    title: title,
     startDateTime: startDateTime,
     endDateTime: endDateTime,
     isGood: isGood,
     category: category,
     memo: memo
-  }
+  })
 
   let dailyRecord = timeBlocks.dailyRecords.get(formattedStartDate);
 
@@ -80,7 +82,9 @@ const onRegister = (e, closeModal: (e) => void, timeBlocks: WeekViewDto, updateT
 
 //https://stackoverflow.com/questions/45283030/html5-input-type-time-without-am-pm-and-with-min-max
 export const TimeBlockRegisterForm: React.FC<FormProps> = (props: FormProps) => {
-  const {earliestRecord, latestRecord, closeModal, timeBlocks, updateTimeBlocks } = props;
+  const {earliestRecord, latestRecord, closeModal, timeBlocks, updateTimeBlocks, timeApi } = props;
+  // const [startDateTime, setStartDateTime] = useState(earliestRecord.getStartDateTime());
+  // const [endDateTime, setEndDateTime] = useState(latestRecord.getEndDateTime())
   const [isGood, setIsGood] = useState(false)
   const toggleIsGood = () => setIsGood(!isGood)
 
@@ -109,7 +113,7 @@ export const TimeBlockRegisterForm: React.FC<FormProps> = (props: FormProps) => 
         },
         fontFamily: "Gaegu-Regular",
       })}
-      onClick={(e) => onRegister(e, closeModal, timeBlocks, updateTimeBlocks)}>
+      onClick={(e) => onRegister(e, closeModal, timeBlocks, updateTimeBlocks, timeApi)}>
       <div className="form-group" css={css({
         display: "flex",
         flexDirection: "row",
@@ -162,9 +166,9 @@ export const TimeBlockRegisterForm: React.FC<FormProps> = (props: FormProps) => 
           })}
                id={"startDateTime"}
           >
-            <DatePicker dateTime={earliestRecord.getStartDateTime()}/>
+            <DatePicker dateTime={earliestRecord !== undefined ? earliestRecord.getStartDateTime() : ''}/>
             <div>-</div>
-            <TimePicker initialValue={earliestRecord.getStartDateTime().split("T")[1].slice(0, 2)}/>
+            <TimePicker initialValue={earliestRecord !== undefined ? earliestRecord.getStartDateTime().split("T")[1].slice(0, 2) : ''}/>
           </div>
         </div>
       </div>
@@ -184,9 +188,9 @@ export const TimeBlockRegisterForm: React.FC<FormProps> = (props: FormProps) => 
             justifyContent: "space-between",
           })}
                id={"endDateTime"}>
-            <DatePicker dateTime={latestRecord.getEndDateTime()}/>
+            <DatePicker dateTime={latestRecord !== undefined ? latestRecord.getEndDateTime() : ''}/>
             <div>-</div>
-            <TimePicker initialValue={latestRecord.getEndDateTime().split("T")[1].slice(0, 2)}/>
+            <TimePicker initialValue={latestRecord !== undefined ? latestRecord.getEndDateTime().split("T")[1].slice(0, 2) : ''}/>
           </div>
         </div>
       </div>

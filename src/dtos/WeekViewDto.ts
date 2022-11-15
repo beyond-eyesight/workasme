@@ -1,12 +1,10 @@
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
-import {TodoDto} from "src/dtos/TodoDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import {DailyRecordDto} from "src/dtos/DailyRecordDto";
-
 
 
 export interface WeekViewDto {
   dailyRecords: Map<string, DailyRecordDto>
-  edgeTime: TimeBlockDto | undefined
+  edgeTime: TimeDto | undefined
 }
 
 

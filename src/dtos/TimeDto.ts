@@ -1,6 +1,6 @@
 
 
-export interface TimeBlockDto {
+export interface TimeDto {
   readonly id: number;
   readonly title: string;
   readonly startDateTime: string;

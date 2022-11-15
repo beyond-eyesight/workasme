@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import Pixel from "src/graphic/size/pixel";
 import Percentage from "src/graphic/size/percentage";
 /** @jsxRuntime classic */
@@ -13,8 +13,8 @@ import {WeekViewDto} from "src/dtos/WeekViewDto";
 
 
 
-const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeBlockDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}> =
-  (props: { isMatching: boolean, timeBlockDto: TimeBlockDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
+const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}> =
+  (props: { isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
     const {isMatching, timeBlockDto, timeCellHeight, timeBlockHeightRatio, timeBlocks, updateTimeBlocks} = props;
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     let modal: any = undefined;
@@ -68,8 +68,8 @@ const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeBlockDto | un
     return <div/>
   }
 
-const TimeContent: React.FC<{ timeCellHeight: Pixel, timeBlockHeightRatio: Percentage, timeBlockDto: TimeBlockDto, onClick: (e) => void }> =
-  (props: { timeCellHeight: Pixel, timeBlockHeightRatio: Percentage, timeBlockDto: TimeBlockDto, onClick: (e) => void }) => {
+const TimeContent: React.FC<{ timeCellHeight: Pixel, timeBlockHeightRatio: Percentage, timeBlockDto: TimeDto, onClick: (e) => void }> =
+  (props: { timeCellHeight: Pixel, timeBlockHeightRatio: Percentage, timeBlockDto: TimeDto, onClick: (e) => void }) => {
     const {timeCellHeight, timeBlockHeightRatio, timeBlockDto, onClick} = props;
 
 

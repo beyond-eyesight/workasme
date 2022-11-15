@@ -2,7 +2,7 @@ import React, {useState} from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import DatePicker from "src/pages/components/DatePicker";
 import TimePicker from "src/pages/components/TimePicker";
 import Colors from "src/constants/Colors";
@@ -11,7 +11,7 @@ import Pixel from "src/graphic/size/pixel";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
 
 
-const onSubmitHandler = (e, exTimeBlockDto: TimeBlockDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void) => {
+const onSubmitHandler = (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void) => {
   console.log("exTimeBlockDto", exTimeBlockDto.startDateTime);
 
   if (e.target.innerText !== 'edit' && e.target.innerText !== 'remove') {
@@ -50,7 +50,7 @@ const onSubmitHandler = (e, exTimeBlockDto: TimeBlockDto, closeModal: (e) => voi
     const [endMonth, endDay, endYear] = endDate.split('.')
 
     alert("should api call modified")
-    const newTimeBlock: TimeBlockDto = {id: id, title: title,
+    const newTimeBlock: TimeDto = {id: id, title: title,
       startDateTime: startYear + '-' + startMonth + '-' + startDay + "T" + startTime + ":00",
       endDateTime: endYear + '-' + endMonth + '-' + endDay + "T" + endTime + ":00",
       isGood: isGood,
@@ -81,8 +81,8 @@ const onSubmitHandler = (e, exTimeBlockDto: TimeBlockDto, closeModal: (e) => voi
   closeModal(e)
 }
 
-const TimeBlockEditForm: React.FC<{timeBlockDto: TimeBlockDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { timeBlockDto: TimeBlockDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}) => {
+const TimeBlockEditForm: React.FC<{timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
+  (props: { timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}) => {
     const {timeBlockDto, closeModal, timeBlocks, updateTimeBlocks} = props;
     const [isGood, setIsGood] = useState(timeBlockDto.isGood)
     const toggleIsGood = (e) => {

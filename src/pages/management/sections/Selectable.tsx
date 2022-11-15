@@ -6,7 +6,7 @@ import Pixel from "src/graphic/size/pixel";
 import Percentage from "src/graphic/size/percentage";
 import {ReactSelectableComponentProps} from "react-selectable";
 import Colors from "src/constants/Colors";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import TimeBlock from "src/pages/components/timeblock/TimeBlock";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
 
@@ -14,7 +14,7 @@ interface SelectableProps extends ReactSelectableComponentProps {
   selectableRef: any,
   isSelected: boolean,
   isMatching: boolean,
-  timeBlockDto: TimeBlockDto | undefined,
+  timeBlockDto: TimeDto | undefined,
   timeBlockHeightRatio?: Percentage
   timeCellHeight: Pixel,
   timeBlocks: WeekViewDto,

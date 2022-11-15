@@ -15,7 +15,7 @@ import Pixel from "src/graphic/size/pixel";
 import Colors from "src/constants/Colors";
 import ReactSelectableGroup from "src/pages/management/sections/selectable/react-selectable/ReactSelectableGroup";
 import {TimeRecord} from "src/model/TimeRecord";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import NumberBox from "src/pages/management/sections/parts/components/box/NumberBox";
 import fontConfig from "src/graphic/text/font";
 import Modal from "src/pages/components/Mordal";
@@ -39,6 +39,7 @@ import {TimeRecordTemplate} from "src/model/TimeRecordTemplate";
 import {DailyRecordDto} from "src/dtos/DailyRecordDto";
 import {useInjection} from "inversify-react";
 import WeekViewApi from "src/api/WeekViewApi";
+import TimeApi from "src/api/TimeApi";
 
 const SelectableComponent = createSelectable(Selectable);
 
@@ -228,7 +229,7 @@ const WeekViewSection: React.FC = () => {
   const [isShown, setIsShown] = useState<boolean>(false)
   const [selectOnMouseMove, setSelectOnMouseMove] = useState<boolean>(false);
   const weekViewApi = useInjection(WeekViewApi);
-  const axiosInstance = container.get<AxiosSupplier>(TYPES.AxiosSupplier).provide();
+  const timeApi = useInjection(TimeApi);
   const token: string = useSelector(selectToken);
 
   const clearItems = useCallback((e) => {
@@ -245,8 +246,6 @@ const WeekViewSection: React.FC = () => {
       .then((weekViewDto) => {
         setTimeBlocks(weekViewDto)
       });
-    // todo: catch를 해야하나?
-    console.log("hahahaaha", token)
 
 
     // closeButton.focus();
@@ -365,7 +364,7 @@ const WeekViewSection: React.FC = () => {
         </div>
       </div>
       <TodoListSection weekdays={weekdays} checkBoxSize={checkBoxSize} timeBlocks={timeBlocks}
-                       updateTimeBlocks={(timeBlocks) => setTimeBlocks.bind(timeBlocks)}/>
+                       updateTimeBlocks={(timeBlocks) => setTimeBlocks(timeBlocks)}/>
 
       <ReactSelectableGroup onSelection={(keys) => setSelectedKeys(keys)}
                             onEndSelection={() => showModal(selectedKeys)}
@@ -417,7 +416,7 @@ const WeekViewSection: React.FC = () => {
                       let selected = selectedKeys.indexOf(timeCell.id) > -1 || isIdInSelectedKeys(timeCell.id, selectedKeys);
                       const isMatching = timeCell.match(timeBlocks, standardDate);
                       const timeBlockHeightRatio = timeCell.calculateHeightTimes(timeBlocks, isMatching, standardDate)
-                      const timeBlockDto: TimeBlockDto | undefined = timeCell.getMatching(timeBlocks, standardDate);
+                      const timeBlockDto: TimeDto | undefined = timeCell.getMatching(timeBlocks, standardDate);
                       return (
                         <div key={timeCellIndex}>
                           <SelectableComponent
@@ -463,6 +462,7 @@ const WeekViewSection: React.FC = () => {
                                      closeModal={onClose.bind(this)}
                                      timeBlocks={timeBlocks}
                                      updateTimeBlocks={(timeBlocks) => setTimeBlocks.bind(timeBlocks)}
+                                     timeApi={timeApi}
               />
             </Modal>
           ) : null}
@@ -474,10 +474,7 @@ const WeekViewSection: React.FC = () => {
 
 const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
   (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
-    const token = useSelector(selectToken);
     const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks} = props;
-    useEffect(() => {
-    }, [token])
 
     return <div
       css={css({
@@ -538,6 +535,11 @@ const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, t
 
     let dailyRecords = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
 
+    if ("2022-11-18" === TimeRecord.getFormattedDate(day, RelativeDay.TODAY)) {
+      console.log("herehere", dailyRecords)
+    }
+
+
     let todoDtosForRender: TodoDto[];
     if (dailyRecords === undefined || dailyRecords.todos.length === 0) {
       todoDtosForRender = [
@@ -588,6 +590,7 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
     const [isFocused, setIsFocused] = useState(false);
 
     const wrapperRef = useRef(null);
+
     useOutsideAlerter(wrapperRef, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused);
 
 
@@ -633,15 +636,21 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
 function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, setIsFocused: Dispatch<SetStateAction<any>>) {
   if (ref.current && !ref.current.contains(event.target)) {
     if ((ref.current.value !== ref.current.defaultValue) && (ref.current.value !== '' && ref.current.value !== undefined)) {
-      alert("should api call modified")
+      console.log("hahahaha", ref.current.value);
+      alert("should api call modified");
       let newTodoDtos: TodoDto[];
       const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
+      console.log("here2", dailyRecord);
+      console.log("todoDto", todoDto);
       if (dailyRecord === undefined) {
+        console.log("here!!")
         timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: ref.current.value}]})
       } else {
         //todo: 이상한데? 왜 여긴 id가 있어...
+
         dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: ref.current.value})
-        timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord)
+        console.log("updated dailyRecord", dailyRecord);
+        timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
       }
 
 
@@ -655,7 +664,7 @@ function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: 
       //   }
       // })
 
-      updateTimeBlocks(timeBlocks);
+      updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
     }
     setIsFocused(false);
     // ref.current.defaultValue = ref.current.value;

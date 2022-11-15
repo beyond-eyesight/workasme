@@ -3,36 +3,33 @@ import {AxiosInstance, AxiosResponse} from "axios";
 import {container} from "src/context/inversify/container";
 import AxiosSupplier from "src/api/AxiosSupplier";
 import {TYPES} from "src/context/inversify/types";
-import {WeekViewDto} from "src/dtos/WeekViewDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import {store} from "src/context/redux/store";
+import {WeekViewDto} from "src/dtos/WeekViewDto";
+import {CreateTimeCommand} from "src/dtos/CreateTimeCommand";
 
 @injectable()
-class WeekViewApi {
+class TimeApi {
   private readonly axiosInstance: AxiosInstance;
 
   constructor() {
     this.axiosInstance = container.get<AxiosSupplier>(TYPES.AxiosSupplier).provide();
   }
 
-  public async getWeekView(date: string, time: string): Promise<WeekViewDto> {
+  public async recordTime(createTimeCommand: CreateTimeCommand): Promise<TimeDto> {
     let state = store.getState();
-
-    const axiosResponse: AxiosResponse = await this.axiosInstance.get<WeekViewDto>('/life-history/workasme/week-view',
+    console.log("timeApi", state.sign.token)
+    const axiosResponse: AxiosResponse = await this.axiosInstance.post<WeekViewDto>('/life-history/times',
+      createTimeCommand,
       {
-        params:
-          {startDate: date, standardTime: time},
         headers: {
           "Authorization": "Bearer " + state.sign.token
         }
       });
-
-
-    return {
-      dailyRecords: new Map(Object.entries(axiosResponse.data.dailyRecords)),
-      edgeTime: axiosResponse.data.edgeTime !== null ? axiosResponse.data.edgeTime : undefined
-    };
-
+    return axiosResponse.data;
   }
 }
 
-export default WeekViewApi;
+export default TimeApi;
+
+

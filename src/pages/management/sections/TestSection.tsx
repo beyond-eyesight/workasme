@@ -8,7 +8,7 @@ import {createSelectable} from 'react-selectable';
 import Selectable from "src/pages/management/sections/Selectable";
 import ReactSelectableGroup from "src/pages/management/sections/selectable/react-selectable/ReactSelectableGroup";
 import Percentage from "src/graphic/size/percentage";
-import {TimeBlockDto} from "src/dtos/TimeBlockDto";
+import {TimeDto} from "src/dtos/TimeDto";
 import dayjs, {Dayjs} from "dayjs";
 import {TimeRecord} from "src/model/TimeRecord";
 import {parseDayOfWeekAlias} from "src/util/DayofweekParser"
@@ -31,6 +31,8 @@ import {container} from "src/context/inversify/container";
 import {TYPES} from "src/context/inversify/types";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
 import {DailyRecordDto} from "src/dtos/DailyRecordDto";
+import timeApi from "src/api/TimeApi";
+import TimeApi from "src/api/TimeApi";
 
 
 const SelectableComponent = createSelectable(Selectable);
@@ -323,8 +325,8 @@ const TodayButton: React.FC = () => {
         let response;
         console.log("test section header", axiosInstance.defaults.headers.common['Authorization']);
         try {
-          response = await axiosInstance.get(`/life-history/times/kk`);
-          console.log('response', response);
+          // response = await axiosInstance.get(`/life-history/times/kk`);
+          // console.log('response', response);
         } catch (e: any) {
           console.log('errorasdafd');
         }
@@ -446,7 +448,7 @@ export class TestSection extends React.Component<any> {
   private timeCellHeight = new Pixel(30);
   private outlineBorder = new Pixel(1);
   private noBorder = new Pixel(0);
-
+  private timeApi = new TimeApi();
 
 
   render() {
@@ -588,7 +590,7 @@ export class TestSection extends React.Component<any> {
                         let selected = this.state.selectedKeys.indexOf(timeCell.id) > -1 || isIdInSelectedKeys(timeCell.id, this.state.selectedKeys);
                         const isMatching = timeCell.match(this.state.timeBlocks, this.state.standardDate);
                         const timeBlockHeightRatio = timeCell.calculateHeightTimes(this.state.timeBlocks, isMatching, this.state.standardDate)
-                        const timeBlockDto: TimeBlockDto | undefined = timeCell.getMatching(this.state.timeBlocks, this.state.standardDate);
+                        const timeBlockDto: TimeDto | undefined = timeCell.getMatching(this.state.timeBlocks, this.state.standardDate);
                         return (
                           <div key={timeCellIndex}>
                             <SelectableComponent
@@ -634,6 +636,7 @@ export class TestSection extends React.Component<any> {
                                        closeModal={this.onClose.bind(this)}
                                        timeBlocks={this.state.timeBlocks}
                                        updateTimeBlocks={this.updateTimeBlocks.bind(this)}
+                                       timeApi={this.timeApi}
                 />
               </Modal>
             ) : null}

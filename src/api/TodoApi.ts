@@ -53,6 +53,16 @@ class TodoApi {
       });
     return axiosResponse.data;
   }
+
+  async deleteTodo(id: number) {
+    let state = store.getState();
+    await this.axiosInstance.delete<WeekViewDto>(`/life-history/todos/${id}`,
+      {
+        headers: {
+          "Authorization": "Bearer " + state.sign.token
+        }
+      });
+  }
 }
 
 export default TodoApi;

@@ -821,16 +821,16 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
       />
       <TodoContent day={day} index={index} isFocused={isFocused} isHover={isHover} setIsFocused={setIsFocused}
                    timeBlocks={timeBlocks} todoDto={todoDto} updateTimeBlocks={updateTimeBlocks}
-                   wrapperRef={wrapperRef}/>
+                   wrapperRef={wrapperRef} todoApi={todoApi}/>
 
       {/*다음으로 할 작업은 인풋 api 콜 되는부분에서 setTodos를 해서 defaultValue를 수정하는것. 마찬가지로 check에서도 체크했을때 api 콜 가정하여 setTodos 호출해서 check 수정하*/}
     </div>
   }
 
 
-const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean }> =
-  (props: { timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean }) => {
-    const {timeBlocks, updateTimeBlocks, todoDto, isFocused, wrapperRef, day, index, setIsFocused, isHover} = props;
+const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean, todoApi: TodoApi }> =
+  (props: { timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean, todoApi: TodoApi }) => {
+    const {timeBlocks, updateTimeBlocks, todoDto, isFocused, wrapperRef, day, index, setIsFocused, isHover, todoApi} = props;
 
     let borderBottomColor;
     if (todoDto.isFinished) {
@@ -848,12 +848,12 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
       closeButtonBackgroundColor = Colors.theme.main.work;
     }
 
-    const onDelete = (e, day, index, timeBlocks, updateTimeBlocks) => {
+    const onDelete = async (e, day, index, timeBlocks, updateTimeBlocks, todoApi: TodoApi) => {
       let dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       // let todoDtosAtDate: TodoDto[] | undefined = timeBlocks.todoWithinThisWeek.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
 
-      const removeTarget = dailyRecord!.todos.filter((todoDto, todoDtoIndex) => todoDtoIndex === index)[0];
-      alert("should api call deleted")
+      const removeTarget: TodoDto = dailyRecord!.todos.filter((todoDto, todoDtoIndex) => todoDtoIndex === index)[0];
+      await todoApi.deleteTodo(removeTarget.id!);
       dailyRecord!.todos = dailyRecord!.todos.filter((todoDto) => {
         return todoDto !== removeTarget
       });
@@ -956,7 +956,7 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
             display: "flex",
             alignItems: "center"
           })}
-          onClick={event => onDelete(event, day, index, timeBlocks, updateTimeBlocks)}
+          onClick={event => onDelete(event, day, index, timeBlocks, updateTimeBlocks, todoApi)}
 
         >
           {/*<span id="close-modal" className="_hide-visual">*/}

@@ -817,10 +817,10 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
       console.log('isHover', isHover, 'isFocus', isFocused)
     }
 
-    const onDelete = (e, day, index, timeBlocks: WeekViewDto, updateTimeBlocks) => {
+    const onDelete = async (e, day, index, timeBlocks: WeekViewDto, updateTimeBlocks, todoApi: TodoApi) => {
       let dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       const removeTarget = dailyRecord!.todos.filter((todoDto, todoDtoIndex) => todoDtoIndex === index)[0];
-      alert("should api call deleted")
+      await todoApi.deleteTodo(removeTarget.id!);
       dailyRecord!.todos = dailyRecord!.todos.filter((todoDto) => {
         return todoDto !== removeTarget
       });
@@ -941,7 +941,7 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
             display: "flex",
             alignItems: "center"
           })}
-          onClick={event => onDelete(event, day, index, timeBlocks, updateTimeBlocks)}
+          onClick={event => onDelete(event, day, index, timeBlocks, updateTimeBlocks, todoApi)}
 
         >
           {/*<span id="close-modal" className="_hide-visual">*/}

@@ -245,7 +245,7 @@ export class TimeRecord {
 
   }
 
-  private static getStartDate(day: dayjs.Dayjs) {
+  public static getStartDate(day: dayjs.Dayjs) {
     if (day.day() === 0) {
       return day;
     }

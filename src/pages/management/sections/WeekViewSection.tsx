@@ -219,6 +219,7 @@ const timeCellHeight = new Pixel(30);
 const noBorder = new Pixel(0);
 const outlineBorder = new Pixel(1);
 
+
 const WeekViewSection: React.FC = () => {
   const selectableRef = React.createRef<ReactSelectableGroup>();
   let closeButton:any;
@@ -242,9 +243,10 @@ const WeekViewSection: React.FC = () => {
 
 
   useEffect(() => {
-    console.log("called");
-    weekViewApi.getWeekView(TimeRecord.getFormattedDate(standardDate, RelativeDay.TODAY), '03:00')
+
+    weekViewApi.getWeekView(TimeRecord.getFormattedDate(TimeRecord.getStartDate(standardDate), RelativeDay.TODAY), '03:00')
       .then((weekViewDto) => {
+        console.log("hahahah", weekViewDto)
         setTimeBlocks(weekViewDto)
       });
 

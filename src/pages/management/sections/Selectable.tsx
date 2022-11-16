@@ -9,6 +9,7 @@ import Colors from "src/constants/Colors";
 import {TimeDto} from "src/dtos/TimeDto";
 import TimeBlock from "src/pages/components/timeblock/TimeBlock";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
+import TimeApi from "src/api/TimeApi";
 
 interface SelectableProps extends ReactSelectableComponentProps {
   selectableRef: any,
@@ -18,12 +19,13 @@ interface SelectableProps extends ReactSelectableComponentProps {
   timeBlockHeightRatio?: Percentage
   timeCellHeight: Pixel,
   timeBlocks: WeekViewDto,
-  updateTimeBlocks: (timeBlocks: WeekViewDto) => void;
+  updateTimeBlocks: (timeBlocks: WeekViewDto) => void,
+  timeApi: TimeApi;
 }
 
 class Selectable extends Component<SelectableProps> {
   render() {
-    const {selectableRef, isSelected, isMatching, timeBlockDto, timeBlockHeightRatio, timeCellHeight, timeBlocks, updateTimeBlocks} = this.props
+    const {selectableRef, isSelected, isMatching, timeBlockDto, timeBlockHeightRatio, timeCellHeight, timeBlocks, updateTimeBlocks, timeApi} = this.props
 
     return <div
       css={css({
@@ -48,7 +50,7 @@ class Selectable extends Component<SelectableProps> {
       >
         {this.props.children}
         <TimeBlock isMatching={isMatching} timeBlockDto={timeBlockDto} timeCellHeight={timeCellHeight}
-                   timeBlockHeightRatio={timeBlockHeightRatio} timeBlocks={timeBlocks} updateTimeBlocks={updateTimeBlocks}/>
+                   timeBlockHeightRatio={timeBlockHeightRatio} timeBlocks={timeBlocks} updateTimeBlocks={updateTimeBlocks} timeApi={timeApi}/>
       </div>
     </div>;
   }

@@ -9,13 +9,18 @@ import Colors from "src/constants/Colors";
 import TimeBlockEditForm from "src/pages/components/timeblock/TimeBlockEditForm";
 import Modal from "src/pages/components/Mordal";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
+import TimeApi from "src/api/TimeApi";
 
 
 
 
-const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}> =
-  (props: { isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
-    const {isMatching, timeBlockDto, timeCellHeight, timeBlockHeightRatio, timeBlocks, updateTimeBlocks} = props;
+const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi}> =
+  (props: { isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi }) => {
+    const {isMatching, timeBlockDto, timeCellHeight, timeBlockHeightRatio, timeBlocks, updateTimeBlocks, timeApi} = props;
+    if (timeBlockDto !== undefined) {
+      console.log("timeBlockDto", timeBlockDto.id);
+    }
+
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     let modal: any = undefined;
     // let closeButton: any = undefined;
@@ -59,7 +64,8 @@ const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeDto | undefin
         {isEditFormOpen && (
           <Modal onClickOutside={onClickOutside} onKeyDown={onKeyDown} modalRef={(n: any) => (modal = n)}
                  buttonRef={(n: any) => {}} closeModal={onCloseModal}>
-            <TimeBlockEditForm timeBlockDto={timeBlockDto} timeBlocks={timeBlocks} updateTimeBlocks={updateTimeBlocks} closeModal={onCloseModal}/>
+            <TimeBlockEditForm timeBlockDto={timeBlockDto} timeBlocks={timeBlocks} updateTimeBlocks={updateTimeBlocks}
+                               closeModal={onCloseModal} timeApi={timeApi}/>
           </Modal>
         )}
       </div>;

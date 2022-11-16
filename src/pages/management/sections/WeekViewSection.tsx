@@ -40,6 +40,7 @@ import {DailyRecordDto} from "src/dtos/DailyRecordDto";
 import {useInjection} from "inversify-react";
 import WeekViewApi from "src/api/WeekViewApi";
 import TimeApi from "src/api/TimeApi";
+import TodoApi from "src/api/TodoApi";
 
 const SelectableComponent = createSelectable(Selectable);
 
@@ -230,7 +231,7 @@ const WeekViewSection: React.FC = () => {
   const [selectOnMouseMove, setSelectOnMouseMove] = useState<boolean>(false);
   const weekViewApi = useInjection(WeekViewApi);
   const timeApi = useInjection(TimeApi);
-  const token: string = useSelector(selectToken);
+  const todoApi = useInjection(TodoApi)
 
   const clearItems = useCallback((e) => {
     if (!isNodeInRoot(e.target, selectableRef)) {
@@ -364,7 +365,9 @@ const WeekViewSection: React.FC = () => {
         </div>
       </div>
       <TodoListSection weekdays={weekdays} checkBoxSize={checkBoxSize} timeBlocks={timeBlocks}
-                       updateTimeBlocks={(timeBlocks) => setTimeBlocks(timeBlocks)}/>
+                       updateTimeBlocks={(timeBlocks) => setTimeBlocks(timeBlocks)}
+                       todoApi={todoApi}
+      />
 
       <ReactSelectableGroup onSelection={(keys) => setSelectedKeys(keys)}
                             onEndSelection={() => showModal(selectedKeys)}
@@ -428,7 +431,8 @@ const WeekViewSection: React.FC = () => {
                             timeBlockHeightRatio={timeBlockHeightRatio}
                             timeCellHeight={timeCellHeight}
                             timeBlocks={timeBlocks}
-                            updateTimeBlocks={(timeBlocks) => setTimeBlocks.bind(timeBlocks)}
+                            updateTimeBlocks={(timeBlocks) => setTimeBlocks(timeBlocks)}
+                            timeApi={timeApi}
                           >
                             <NumberBox number={timeCell.getAlias()} numberSize={checkBoxSize}
                                        numberFont={fontConfig.web.medium.fontFamily}
@@ -472,9 +476,9 @@ const WeekViewSection: React.FC = () => {
   )
 }
 
-const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
-    const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks} = props;
+const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }) => {
+    const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks, todoApi} = props;
 
     return <div
       css={css({
@@ -494,7 +498,9 @@ const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBl
           })}>
             <DateGuide day={day}/>
             <TodoList checkBoxSize={checkBoxSize} weekdays={weekdays} day={day} timeBlocks={timeBlocks}
-                      updateTimeBlocks={updateTimeBlocks}/>
+                      updateTimeBlocks={updateTimeBlocks}
+                      todoApi={todoApi}
+            />
           </div>
         })
       }
@@ -528,10 +534,10 @@ const DateGuide: React.FC<{ day: Dayjs }> = (props: { day: Dayjs }) => {
   </div>
 }
 
-const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
+const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }) => {
 
-    const {checkBoxSize, weekdays, day, timeBlocks, updateTimeBlocks} = props;
+    const {checkBoxSize, weekdays, day, timeBlocks, updateTimeBlocks, todoApi} = props;
 
     let dailyRecords = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
 
@@ -577,21 +583,23 @@ const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, t
         todoDtosForRender.map((todo, index) => {
           return <Todo key={index} checkBoxSize={checkBoxSize} todoDto={todo} day={day} index={index}
                        timeBlocks={timeBlocks}
-                       updateTimeBlocks={updateTimeBlocks}/>
+                       updateTimeBlocks={updateTimeBlocks}
+                       todoApi={todoApi}
+          />
         })
       }
     </div>
   }
 
-const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void }> =
-  (props: { checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void }) => {
-    const {checkBoxSize, todoDto, day, index, timeBlocks, updateTimeBlocks} = props;
+const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void, todoApi: TodoApi }) => {
+    const {checkBoxSize, todoDto, day, index, timeBlocks, updateTimeBlocks, todoApi} = props;
     const [isHover, setIsHover] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
     const wrapperRef = useRef(null);
 
-    useOutsideAlerter(wrapperRef, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused);
+    useOutsideAlerter(wrapperRef, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused, todoApi);
 
 
     return <div
@@ -627,24 +635,24 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
       />
       <TodoContent day={day} index={index} isFocused={isFocused} isHover={isHover} setIsFocused={setIsFocused}
                    timeBlocks={timeBlocks} todoDto={todoDto} updateTimeBlocks={updateTimeBlocks}
-                   wrapperRef={wrapperRef}/>
+                   wrapperRef={wrapperRef} todoApi={todoApi}/>
 
       {/*다음으로 할 작업은 인풋 api 콜 되는부분에서 setTodos를 해서 defaultValue를 수정하는것. 마찬가지로 check에서도 체크했을때 api 콜 가정하여 setTodos 호출해서 check 수정하*/}
     </div>
   }
 
-function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, setIsFocused: Dispatch<SetStateAction<any>>) {
+async function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto,
+                            timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void,
+                            setIsFocused: Dispatch<SetStateAction<any>>, todoApi: TodoApi) {
   if (ref.current && !ref.current.contains(event.target)) {
     if ((ref.current.defaultValue === '' ||  ref.current.defaultValue === undefined) && ((ref.current.value !== '' && ref.current.value !== undefined))) {
-      console.log("생성생성")
       // 생성
+      const newTodo: TodoDto = await todoApi.recordTodo({isFinished: false, date: TimeRecord.getFormattedDate(day, RelativeDay.TODAY), content: ref.current.value})
       const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       if (dailyRecord === undefined) {
-        //todo: 생성해서 넣기
-        console.log("qqqqqqq")
-        timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: ref.current.value}]})
+        timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [newTodo]})
       } else {
-        dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: ref.current.value});
+        dailyRecord.todos.push(newTodo);
         timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
       }
 
@@ -654,12 +662,22 @@ function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: 
     if ((ref.current.defaultValue !== '' &&  ref.current.defaultValue !== undefined) && ((ref.current.value !== '' && ref.current.value !== undefined)) && (ref.current.value !== ref.current.defaultValue)) {
       // 수정
       // alert("should api call modified");
-      console.log("수정수정");
+      console.log("수정수정", todoDto);
+      const updatedTodo: TodoDto = await todoApi.updateContent(todoDto.id!, ref.current.value);
       const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       if (dailyRecord === undefined) {
         throw Error("알 수 없는 오류입니다.");
       }
-      console.log("여기야", todoDto);
+
+      dailyRecord.todos = dailyRecord.todos.map((todoDto) => {
+        if (updatedTodo.id === todoDto.id) {
+          return updatedTodo;
+        } else {
+          return todoDto;
+        }
+      })
+
+      timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
       updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
       // todo: api call and id 기준으로 같은걸 바꾸기
     }
@@ -689,20 +707,22 @@ function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, index: 
   }
 }
 
-function useOutsideAlerter(ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, setIsFocused: Dispatch<SetStateAction<any>>) {
+function useOutsideAlerter(ref: RefObject<any>, day: Dayjs, index: number, todoDto: TodoDto, timeBlocks: WeekViewDto,
+                           updateTimeBlocks: (timeBlocks: WeekViewDto) => void, setIsFocused: Dispatch<SetStateAction<any>>, todoApi: TodoApi) {
 
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
      */
       // Bind the event listener
-    const handleClickOutsideHandler = (e) => handleClickOutside(e, ref, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused);
+    const handleClickOutsideHandler = (e) => handleClickOutside(e, ref, day, index, todoDto, timeBlocks,
+        updateTimeBlocks, setIsFocused, todoApi);
     document.addEventListener("mousedown", handleClickOutsideHandler);
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutsideHandler);
     };
-  }, [ref, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused]);
+  }, [ref, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused, todoApi]);
 }
 
 const TodayButton: React.FC = () => {
@@ -772,9 +792,9 @@ function getCountOfTodoAtDate(weekView: WeekViewDto, weekdays: Dayjs[]) {
   return biggestCountOfTodosWhitinThisWeek < 3 ? 3 : biggestCountOfTodosWhitinThisWeek + 1;
 }
 
-const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean }> =
-  (props: { timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean }) => {
-    const {timeBlocks, updateTimeBlocks, todoDto, isFocused, wrapperRef, day, index, setIsFocused, isHover} = props;
+const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean, todoApi: TodoApi }> =
+  (props: { timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoDto: TodoDto, isFocused: boolean, wrapperRef: MutableRefObject<any>, day: Dayjs, index: number, setIsFocused: Dispatch<SetStateAction<boolean>>, isHover: boolean, todoApi: TodoApi }) => {
+    const {timeBlocks, updateTimeBlocks, todoDto, isFocused, wrapperRef, day, index, setIsFocused, isHover, todoApi} = props;
 
     let borderBottomColor;
     if (todoDto.isFinished) {
@@ -820,24 +840,41 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
       updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
     }
 
-    const onKeyPress = (event, day, index, setIsFocused) => {
+    const onKeyPress = async (event, day, index, setIsFocused, todoApi) => {
       // todo: 엔티티가 아니면, 즉 아이디가 없으면 생성 콜을 해야함.
       if (event.charCode === 13 && !event.shiftKey) {
         event.preventDefault();
         const target = event.target as HTMLInputElement;
-        if (target.defaultValue !== target.value) {
-          alert("should api call modified")
+        if ((target.defaultValue === '' || target.defaultValue === undefined) && (target.value !== '' && target.value !== undefined)) {
+          //생성
+          const newTodo: TodoDto = await todoApi.recordTodo({isFinished: false, date: TimeRecord.getFormattedDate(day, RelativeDay.TODAY), content: target.value})
           const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
           if (dailyRecord === undefined) {
-            timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: target.value}]})
-
+            timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [newTodo]})
           } else {
-            //todo: 이상한데? 왜 여긴 id가 있어...
-            dailyRecord.todos.push({id: todoDto.id, isFinished: todoDto.isFinished, content: target.value})
-            timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord)
+            dailyRecord.todos.push(newTodo);
+            timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
           }
 
+          updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
+        }
 
+        if ((target.defaultValue !== '' && target.defaultValue !== undefined) && (target.value !== '' && target.value !== undefined) && (target.value !== target.defaultValue)) {
+          const updatedTodo: TodoDto = await todoApi.updateContent(todoDto.id!, target.value);
+          const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
+          if (dailyRecord === undefined) {
+            throw Error("알 수 없는 오류입니다.");
+          }
+
+          dailyRecord.todos = dailyRecord.todos.map((todoDto) => {
+            if (updatedTodo.id === todoDto.id) {
+              return updatedTodo;
+            } else {
+              return todoDto;
+            }
+          })
+
+          timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
           updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
         }
         setIsFocused(false);
@@ -866,7 +903,7 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
               outline: "0px"
             },
 
-          })} autoFocus={isFocused} onKeyPress={(e) => onKeyPress(e, day, index, setIsFocused)}
+          })} autoFocus={isFocused} onKeyPress={(e) => onKeyPress(e, day, index, setIsFocused, todoApi)}
                               defaultValue={todoDto.content}
           /> :
           <input ref={wrapperRef} css={css({
@@ -887,7 +924,7 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
               outline: "0px"
             },
           })} key={TimeRecord.getFormattedDate(day, RelativeDay.TODAY) + index + todoDto.content}
-                 onFocus={() => setIsFocused(true)} onKeyPress={(e) => onKeyPress(e, day, index, setIsFocused)}
+                 onFocus={() => setIsFocused(true)} onKeyPress={(e) => onKeyPress(e, day, index, setIsFocused, todoApi)}
                  defaultValue={todoDto.content} type={"text"}/>
       }
       {isHover && !isFocused && (todoDto.content !== undefined && todoDto.content !== '') && (

@@ -7,6 +7,7 @@ import {TimeDto} from "src/dtos/TimeDto";
 import {store} from "src/context/redux/store";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
 import {CreateTimeCommand} from "src/dtos/CreateTimeCommand";
+import {UpdateTimeCommand} from "src/dtos/UpdateTimeCommand";
 
 @injectable()
 class TimeApi {
@@ -18,7 +19,6 @@ class TimeApi {
 
   public async recordTime(createTimeCommand: CreateTimeCommand): Promise<TimeDto> {
     let state = store.getState();
-    console.log("timeApi", state.sign.token)
     const axiosResponse: AxiosResponse = await this.axiosInstance.post<WeekViewDto>('/life-history/times',
       createTimeCommand,
       {
@@ -27,6 +27,28 @@ class TimeApi {
         }
       });
     return axiosResponse.data;
+  }
+
+  public async updateTime(id: number, updateTimeCommand: UpdateTimeCommand): Promise<TimeDto> {
+    let state = store.getState();
+    const axiosResponse: AxiosResponse = await this.axiosInstance.put<WeekViewDto>(`/life-history/times/${id}`,
+      updateTimeCommand,
+      {
+        headers: {
+          "Authorization": "Bearer " + state.sign.token
+        }
+      });
+    return axiosResponse.data;
+  }
+
+  async deleteTime(id: number) {
+    let state = store.getState();
+    await this.axiosInstance.delete<WeekViewDto>(`/life-history/times/${id}`,
+      {
+        headers: {
+          "Authorization": "Bearer " + state.sign.token
+        }
+      });
   }
 }
 

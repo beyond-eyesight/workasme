@@ -9,9 +9,11 @@ import Colors from "src/constants/Colors";
 import {options} from "src/pages/components/timeblock/CategoryOptions";
 import Pixel from "src/graphic/size/pixel";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
+import TimeApi from "src/api/TimeApi";
 
 
-const onSubmitHandler = (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void) => {
+const onSubmitHandler = async (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto,
+                         updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi) => {
   console.log("exTimeBlockDto", exTimeBlockDto.startDateTime);
 
   if (e.target.innerText !== 'edit' && e.target.innerText !== 'remove') {
@@ -23,15 +25,17 @@ const onSubmitHandler = (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, ti
     const startDate = exTimeBlockDto.startDateTime.split('T')[0];
     const dailyRecord = timeBlocks.dailyRecords.get(startDate);
     if (dailyRecord === undefined) {
-      throw Error("이상한데요~~")
+      throw Error("알 수 없는 오류입니다.")
     }
-    alert("should api call deleted with id " + id)
+
+    await timeApi.deleteTime(id);
+
     dailyRecord.times = dailyRecord.times.filter((timeBlockDto) => {
       return timeBlockDto.id !== exTimeBlockDto.id;
     });
 
     timeBlocks.dailyRecords.set(startDate, dailyRecord);
-    updateTimeBlocks(timeBlocks);
+    updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
   }
 
 
@@ -49,14 +53,34 @@ const onSubmitHandler = (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, ti
     const [startMonth, startDay, startYear] = startDate.split('.')
     const [endMonth, endDay, endYear] = endDate.split('.')
 
-    alert("should api call modified")
-    const newTimeBlock: TimeDto = {id: id, title: title,
-      startDateTime: startYear + '-' + startMonth + '-' + startDay + "T" + startTime + ":00",
-      endDateTime: endYear + '-' + endMonth + '-' + endDay + "T" + endTime + ":00",
-      isGood: isGood,
-      category: category,
-      memo: memo
-    }
+    console.log("id", id);
+    console.log("title", title)
+    console.log("currentTarget", e.currentTarget);
+    const updatedTimeBlock = await timeApi.updateTime(id,
+      {
+        title: title,
+        startDateTime: startYear + '-' + startMonth + '-' + startDay + "T" + startTime + ":00",
+        endDateTime: endYear + '-' + endMonth + '-' + endDay + "T" + endTime + ":00",
+        isGood: isGood,
+        category: category,
+        memo: memo
+      });
+
+    //private String title;
+    //     private LocalDateTime startDateTime;
+    //     private LocalDateTime endDateTime;
+    //     @JsonProperty("isGood")
+    //     private boolean isGood;
+    //     private String category;
+    //     private String memo;
+
+    // const newTimeBlock: TimeDto = {id: id, title: title,
+    //   startDateTime: startYear + '-' + startMonth + '-' + startDay + "T" + startTime + ":00",
+    //   endDateTime: endYear + '-' + endMonth + '-' + endDay + "T" + endTime + ":00",
+    //   isGood: isGood,
+    //   category: category,
+    //   memo: memo
+    // }
 
     const formattedDate = exTimeBlockDto.startDateTime.split("T")[0];
     const dailyRecord = timeBlocks.dailyRecords.get(formattedDate);
@@ -66,24 +90,24 @@ const onSubmitHandler = (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, ti
     }
 
     dailyRecord.times = dailyRecord.times.map((timeBlockDto) => {
-      if (newTimeBlock.id === timeBlockDto.id) {
-        return newTimeBlock;
+      if (updatedTimeBlock.id === timeBlockDto.id) {
+        return updatedTimeBlock;
       } else {
         return timeBlockDto;
       }
     });
 
     timeBlocks.dailyRecords.set(formattedDate, dailyRecord);
-    updateTimeBlocks(timeBlocks);
+    updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});
 
   }
 
   closeModal(e)
 }
 
-const TimeBlockEditForm: React.FC<{timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void}) => {
-    const {timeBlockDto, closeModal, timeBlocks, updateTimeBlocks} = props;
+const TimeBlockEditForm: React.FC<{timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi }> =
+  (props: { timeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi}) => {
+    const {timeBlockDto, closeModal, timeBlocks, updateTimeBlocks, timeApi} = props;
     const [isGood, setIsGood] = useState(timeBlockDto.isGood)
     const toggleIsGood = (e) => {
       e.stopPropagation();
@@ -112,7 +136,7 @@ const TimeBlockEditForm: React.FC<{timeBlockDto: TimeDto, closeModal: (e) => voi
         fontFamily: "Gaegu-Regular",
       })}
       id={"time-block-form"}
-      onClick={(event => onSubmitHandler(event, timeBlockDto, closeModal, timeBlocks, updateTimeBlocks))}
+      onClick={(event => onSubmitHandler(event, timeBlockDto, closeModal, timeBlocks, updateTimeBlocks, timeApi))}
     >
       <div className={"form-group"} css={css({
         display: "none"

@@ -4,6 +4,7 @@ import {TYPES} from "src/context/inversify/types";
 import UserApi from "src/api/UserApi";
 import WeekViewApi from "src/api/WeekViewApi";
 import TimeApi from "src/api/TimeApi";
+import TodoApi from "src/api/TodoApi";
 
 // todo: 현재 왜인지 @inject가 안돼서 bind - get 하고 있음. loader를 추가하던지 해서 @inject로 주입하면 좋을듯
 export const container = new Container();
@@ -12,3 +13,4 @@ container.bind<AxiosSupplier>(TYPES.AxiosSupplier).to(AxiosSupplier).inSingleton
 container.bind(UserApi).toSelf().inSingletonScope();
 container.bind(WeekViewApi).toSelf().inSingletonScope();
 container.bind(TimeApi).toSelf().inSingletonScope();
+container.bind(TodoApi).toSelf().inSingletonScope();

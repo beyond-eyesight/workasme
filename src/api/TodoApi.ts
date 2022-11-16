@@ -7,6 +7,7 @@ import {TodoDto} from "src/dtos/TodoDto";
 import {store} from "src/context/redux/store";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
 import {CreateTodoCommand} from "src/dtos/CreateTodoCommand";
+import {UpdateTodoFinishedCommand} from "src/dtos/UpdateTodoFinishedCommand";
 
 @injectable()
 class TodoApi {
@@ -36,6 +37,18 @@ class TodoApi {
         headers: {
           "Authorization": "Bearer " + state.sign.token,
           "Content-Type": "text/plain"
+        }
+      });
+    return axiosResponse.data;
+  }
+
+  async updateFinished(id: number, updateTodoFinishedCommand: UpdateTodoFinishedCommand): Promise<TodoDto> {
+    let state = store.getState();
+    const axiosResponse: AxiosResponse = await this.axiosInstance.patch<WeekViewDto>(`/life-history/todos/${id}/finished`,
+      updateTodoFinishedCommand,
+      {
+        headers: {
+          "Authorization": "Bearer " + state.sign.token
         }
       });
     return axiosResponse.data;

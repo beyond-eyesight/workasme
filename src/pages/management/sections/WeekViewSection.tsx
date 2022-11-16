@@ -632,6 +632,7 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
                 day={day}
                 timeBlocks={timeBlocks}
                 updateTimeBlocks={updateTimeBlocks}
+                todoApi={todoApi}
       />
       <TodoContent day={day} index={index} isFocused={isFocused} isHover={isHover} setIsFocused={setIsFocused}
                    timeBlocks={timeBlocks} todoDto={todoDto} updateTimeBlocks={updateTimeBlocks}

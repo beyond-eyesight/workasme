@@ -33,6 +33,8 @@ import {WeekViewDto} from "src/dtos/WeekViewDto";
 import {DailyRecordDto} from "src/dtos/DailyRecordDto";
 import timeApi from "src/api/TimeApi";
 import TimeApi from "src/api/TimeApi";
+import TodoApi from "src/api/TodoApi";
+import todoApi from "src/api/TodoApi";
 
 
 const SelectableComponent = createSelectable(Selectable);
@@ -449,7 +451,7 @@ export class TestSection extends React.Component<any> {
   private outlineBorder = new Pixel(1);
   private noBorder = new Pixel(0);
   private timeApi = new TimeApi();
-
+  private todoApi = new TodoApi();
 
   render() {
     const weekdays = calculateWeekdaysForView(this.state.standardDate);
@@ -538,7 +540,7 @@ export class TestSection extends React.Component<any> {
           </div>
         </div>
         <TodoListSection weekdays={weekdays} checkBoxSize={this.checkBoxSize} timeBlocks={this.state.timeBlocks}
-                         updateTimeBlocks={this.updateTimeBlocks.bind(this)}/>
+                         updateTimeBlocks={this.updateTimeBlocks.bind(this)} todoApi={this.todoApi}/>
 
         <ReactSelectableGroup onSelection={this.handleSelection}
                               onEndSelection={() => this.showModal(this.state.selectedKeys)}
@@ -648,10 +650,10 @@ export class TestSection extends React.Component<any> {
 }
 
 
-const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
+const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi}) => {
 
-    const {checkBoxSize, weekdays, day, timeBlocks, updateTimeBlocks} = props;
+    const {checkBoxSize, weekdays, day, timeBlocks, updateTimeBlocks, todoApi} = props;
 
     let dailyRecords = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
 
@@ -692,7 +694,7 @@ const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, t
         todoDtosForRender.map((todo, index) => {
           return <Todo key={index} checkBoxSize={checkBoxSize} todoDto={todo} day={day} index={index}
                        timeBlocks={timeBlocks}
-                       updateTimeBlocks={updateTimeBlocks}/>
+                       updateTimeBlocks={updateTimeBlocks} todoApi={todoApi}/>
         })
       }
     </div>
@@ -768,9 +770,9 @@ function useOutsideAlerter(ref: RefObject<any>, day: Dayjs, index: number, todoD
 }
 
 //https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
-const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void }> =
-  (props: { checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void }) => {
-    const {checkBoxSize, todoDto, day, index, timeBlocks, updateTimeBlocks} = props;
+const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index: number, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlock: WeekViewDto) => void, todoApi: TodoApi }) => {
+    const {checkBoxSize, todoDto, day, index, timeBlocks, updateTimeBlocks, todoApi} = props;
     const [isHover, setIsHover] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -815,6 +817,7 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
                 day={day}
                 timeBlocks={timeBlocks}
                 updateTimeBlocks={updateTimeBlocks}
+                todoApi={todoApi}
       />
       <TodoContent day={day} index={index} isFocused={isFocused} isHover={isHover} setIsFocused={setIsFocused}
                    timeBlocks={timeBlocks} todoDto={todoDto} updateTimeBlocks={updateTimeBlocks}
@@ -972,10 +975,10 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
     </div>
   }
 
-const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
+const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }) => {
     const token = useSelector(selectToken);
-    const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks} = props;
+    const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks, todoApi} = props;
     useEffect(() => {
       console.log("token", token);
     }, [token])
@@ -998,7 +1001,7 @@ const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBl
           })}>
             <DateGuide day={day}/>
             <TodoList checkBoxSize={checkBoxSize} weekdays={weekdays} day={day} timeBlocks={timeBlocks}
-                      updateTimeBlocks={updateTimeBlocks}/>
+                      updateTimeBlocks={updateTimeBlocks} todoApi={todoApi}/>
           </div>
         })
       }

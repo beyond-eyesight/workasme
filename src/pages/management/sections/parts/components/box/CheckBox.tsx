@@ -11,9 +11,10 @@ import {TimeRecord} from "src/model/TimeRecord";
 import {RelativeDay} from "src/model/RelativeDay";
 import Colors from "src/constants/Colors";
 import {WeekViewDto} from "src/dtos/WeekViewDto";
+import TodoApi from "src/api/TodoApi";
 
-const CheckBox: React.FC<{ size: Pixel, borderWidth: Pixel, todoDto: TodoDto, index: number, day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }> =
-  (props: { size: Pixel, borderWidth: Pixel, index: number, day: Dayjs, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void }) => {
+const CheckBox: React.FC<{ size: Pixel, borderWidth: Pixel, todoDto: TodoDto, index: number, day: Dayjs, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
+  (props: { size: Pixel, borderWidth: Pixel, index: number, day: Dayjs, todoDto: TodoDto, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi}) => {
     const {
       size,
       borderWidth,
@@ -21,7 +22,8 @@ const CheckBox: React.FC<{ size: Pixel, borderWidth: Pixel, todoDto: TodoDto, in
       index,
       day,
       timeBlocks,
-      updateTimeBlocks
+      updateTimeBlocks,
+      todoApi
     } = props;
 
     let borderColor;
@@ -40,25 +42,25 @@ const CheckBox: React.FC<{ size: Pixel, borderWidth: Pixel, todoDto: TodoDto, in
       backgroundColor = "transparent";
     }
 
-    const onChange = (day, index) => {
+    const onChange = async (day, index) => {
       let dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       if (dailyRecord === undefined || dailyRecord.todos.length === 0) {
         return;
       }
 
-      dailyRecord.todos = dailyRecord.todos.map((todoDto, todoDtoIndex) => {
+
+      dailyRecord.todos = await Promise.all(dailyRecord.todos.map(async (todoDto, todoDtoIndex) => {
         if (todoDtoIndex === index) {
           //여기에서 api 콜한 결과를 리턴
           if (todoDto.content === undefined || todoDto.content === '') {
             return todoDto;
           }
 
-          alert("should api call modified")
-          return {id: todoDto.id, isFinished: !todoDto.isFinished, content: todoDto.content}
+          return await todoApi.updateFinished(todoDto.id!, {isFinished: !todoDto.isFinished})
         } else {
           return todoDto;
         }
-      });
+      }));
 
       timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), dailyRecord);
       updateTimeBlocks({dailyRecords: timeBlocks.dailyRecords, edgeTime: timeBlocks.edgeTime});

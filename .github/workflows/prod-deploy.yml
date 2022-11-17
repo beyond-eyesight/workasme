@@ -1,4 +1,4 @@
-name: CD - dev Deploy
+name: CD - prod Deploy
 on: workflow_dispatch
 jobs:
   build:

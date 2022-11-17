@@ -15,10 +15,9 @@ class UserApi {
     this.axiosInstance = container.get<AxiosSupplier>(TYPES.AxiosSupplier).provide();
   }
 
-  public async signUp(username: string, email: string, firstName: string, lastName: string, password: string) {
-    let response;
+  public async signUp(username: string, email: string, firstName: string, lastName: string, password: string): Promise<void> {
     try {
-      response = await this.axiosInstance.post(`/iam/realms/bintegration/users`, {
+      await this.axiosInstance.post(`/iam/realms/bintegration/users`, {
         "username": username,
         "email": email,
         "firstName": firstName,
@@ -28,7 +27,6 @@ class UserApi {
     } catch (e: any) {
       // console.clear();
       if (e.response) {
-        console.warn("error", e.response.data.message);
         const status = e.response.status;
         if (status === 401) {
           const code: string = e.response.data.code;
@@ -47,17 +45,15 @@ class UserApi {
     }
   }
 
-  public async signIn(email: string, password: string) {
-    let response;
+  public async signIn(email: string, password: string):Promise<void> {
     try {
-      response = await this.axiosInstance.post(`/iam/realms/bintegration/protocol/openid-connect/token`, {
+      const response = await this.axiosInstance.post(`/iam/realms/bintegration/protocol/openid-connect/token`, {
         "username": email,
         "password": password,
       });
       store.dispatch(signInAction({accessToken: response.data.access_token}))
       // this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
       localStorage.setItem("refresh_token", response.data.refresh_token)
-      return response.data.access_token;
 
     } catch (e: any) {
       // console.clear();

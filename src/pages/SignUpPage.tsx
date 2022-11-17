@@ -41,19 +41,9 @@ const SignUpSection: React.FC = () => {
       return;
     }
 
-    // "username": "test-signup",
-    //   "email": "test-signup@gmail.com",
-    //   "firstName": "test-signup",
-    //   "lastName": "test-signup",
-    //   "password": "026060Mcfnxm**"
 
-
-    let response;
     try {
-      console.log("trying create")
-      //todo: user api
       await userApi.signUp(username, email, firstName, lastName, password);
-
       await userApi.signIn(username, password);
       navigate("/time-track")
       //todo: 이거 로직 빼기

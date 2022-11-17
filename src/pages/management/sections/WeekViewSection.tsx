@@ -238,6 +238,7 @@ const WeekViewSection: React.FC = () => {
     if (!isNodeInRoot(e.target, selectableRef)) {
       setSelectedKeys([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectableRef.current, selectableRef])
 
 

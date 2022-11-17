@@ -239,7 +239,7 @@ const WeekViewSection: React.FC = () => {
       setSelectedKeys([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectableRef.current, selectableRef])
+  }, [selectableRef.current])
 
 
 

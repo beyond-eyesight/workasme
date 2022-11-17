@@ -544,10 +544,6 @@ const TodoList: React.FC<{ checkBoxSize: Pixel, weekdays: Dayjs[], day: Dayjs, t
 
     let dailyRecords = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
 
-    if ("2022-11-18" === TimeRecord.getFormattedDate(day, RelativeDay.TODAY)) {
-      console.log("herehere", dailyRecords)
-    }
-
 
     let todoDtosForRender: TodoDto[];
     if (dailyRecords === undefined || dailyRecords.todos.length === 0) {

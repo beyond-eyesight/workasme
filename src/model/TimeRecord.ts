@@ -129,20 +129,15 @@ export class TimeRecord {
   private getEdgeTimeOfDay(savedTimes: WeekViewDto, standardDate: Dayjs): TimeDto | undefined {
     let currentDate = this.getCurrentDate();
     const firstDateOfThisWeek: Dayjs = TimeRecord.getFirstDateOfThisWeek(standardDate);
-    while (TimeRecord.getFormattedDate(currentDate, RelativeDay.YESTERDAY) !== TimeRecord.getFormattedDate(firstDateOfThisWeek, RelativeDay.TODAY) && firstDateOfThisWeek.isBefore(currentDate.add(1, "days"))) {
-      const formattedCurrentDate: string = TimeRecord.getFormattedDate(currentDate, RelativeDay.TODAY);
+    while ((TimeRecord.getFormattedDate(currentDate, RelativeDay.TODAY) !== TimeRecord.getFormattedDate(firstDateOfThisWeek, RelativeDay.TODAY)) && firstDateOfThisWeek.isBefore(currentDate.add(1, "days"))) {
+      const formattedCurrentDate: string = TimeRecord.getFormattedDate(currentDate, RelativeDay.YESTERDAY);
+
 
       let dailyRecord = savedTimes.dailyRecords.get(formattedCurrentDate);
       if (dailyRecord === undefined || dailyRecord.times.length === 0) {
         currentDate = currentDate.subtract(1, 'days');
         continue;
       }
-      //  const timeBlocksOfDate: TimeBlockDto[] | undefined = savedTimes.timesWithinThisWeek.get(formattedCurrentDate);
-      //
-      // if (timeBlocksOfDate === undefined || timeBlocksOfDate.length === 0) {
-      //   currentDate = currentDate.subtract(1, 'days');
-      //   continue;
-      // }
 
       for (let timeOfDate of dailyRecord.times) {
         if (moment(timeOfDate.startDateTime).isBefore(this.getFirstDateTime())

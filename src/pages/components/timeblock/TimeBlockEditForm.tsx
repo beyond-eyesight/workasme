@@ -14,7 +14,6 @@ import TimeApi from "src/api/TimeApi";
 
 const onSubmitHandler = async (e, exTimeBlockDto: TimeDto, closeModal: (e) => void, timeBlocks: WeekViewDto,
                          updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi) => {
-  console.log("exTimeBlockDto", exTimeBlockDto.startDateTime);
 
   if (e.target.innerText !== 'edit' && e.target.innerText !== 'remove') {
     return;

@@ -225,7 +225,7 @@ const WeekViewSection: React.FC = () => {
   let closeButton:any;
   let modal: any;
 
-  const [standardDate, setStandardDate] = useState(dayjs);
+  const [standardDate, setStandardDate] = useState<dayjs.Dayjs>(dayjs);
   const [selectedKeys, setSelectedKeys] = useState<number[]>([]);
   const [timeBlocks, setTimeBlocks] = useState<WeekViewDto>({dailyRecords: new Map<string, DailyRecordDto>([]), edgeTime: undefined});
   const [isShown, setIsShown] = useState<boolean>(false)
@@ -354,7 +354,7 @@ const WeekViewSection: React.FC = () => {
               }}/>
           </div>
 
-          <TodayButton/>
+          <TodayButton setStandardDate={setStandardDate}/>
           <div css={css({
             display: "flex",
             alignItems: "center",
@@ -725,7 +725,8 @@ function useOutsideAlerter(ref: RefObject<any>, day: Dayjs, index: number, todoD
   }, [ref, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused, todoApi]);
 }
 
-const TodayButton: React.FC = () => {
+const TodayButton: React.FC<{setStandardDate: Dispatch<SetStateAction<dayjs.Dayjs>>}> = (props: {setStandardDate: Dispatch<SetStateAction<dayjs.Dayjs>>}) => {
+  const {setStandardDate} = props;
   const dispatch = useDispatch();
   const axiosProvider = container.get<AxiosSupplier>(TYPES.AxiosSupplier);
   const axiosInstance = axiosProvider.provide()
@@ -757,14 +758,7 @@ const TodayButton: React.FC = () => {
 
 
       onClick={async () => {
-        let response;
-        console.log("test section header", axiosInstance.defaults.headers.common['Authorization']);
-        try {
-          response = await axiosInstance.get(`/life-history/times/kk`);
-          console.log('response', response);
-        } catch (e: any) {
-          console.log('errorasdafd');
-        }
+        setStandardDate(dayjs())
       }}
     >today
     </button>

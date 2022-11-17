@@ -238,7 +238,7 @@ const WeekViewSection: React.FC = () => {
     if (!isNodeInRoot(e.target, selectableRef)) {
       setSelectedKeys([]);
     }
-  }, [selectableRef.current])
+  }, [selectableRef.current, selectableRef])
 
 
 
@@ -1003,6 +1003,7 @@ function calculateWeekdaysForView(day: dayjs.Dayjs): Dayjs[] {
 
 
 const isNodeInRoot = (node, root) => {
+
   while (node) {
     if (node === root) {
       return true;

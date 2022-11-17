@@ -17,9 +17,6 @@ import TimeApi from "src/api/TimeApi";
 const TimeBlock: React.FC<{ isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi}> =
   (props: { isMatching: boolean, timeBlockDto: TimeDto | undefined, timeCellHeight: Pixel, timeBlockHeightRatio?: Percentage, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, timeApi: TimeApi }) => {
     const {isMatching, timeBlockDto, timeCellHeight, timeBlockHeightRatio, timeBlocks, updateTimeBlocks, timeApi} = props;
-    if (timeBlockDto !== undefined) {
-      console.log("timeBlockDto", timeBlockDto.id);
-    }
 
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     let modal: any = undefined;

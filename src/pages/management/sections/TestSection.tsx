@@ -323,16 +323,7 @@ const TodayButton: React.FC = () => {
       className={"button"}
 
 
-      onClick={async () => {
-        let response;
-        console.log("test section header", axiosInstance.defaults.headers.common['Authorization']);
-        try {
-          // response = await axiosInstance.get(`/life-history/times/kk`);
-          // console.log('response', response);
-        } catch (e: any) {
-          console.log('errorasdafd');
-        }
-      }}
+      onClick={() => {}}
     >today
     </button>
   </div>;
@@ -776,14 +767,6 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
     const [isHover, setIsHover] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    if (TimeRecord.getFormattedDate(day, RelativeDay.TODAY) === '2022-10-13') {
-      console.log('isHover', isHover, 'isFocus', isFocused)
-    }
-
-
-    useEffect(() => {
-      console.log("useEffect");
-    })
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef, day, index, todoDto, timeBlocks, updateTimeBlocks, setIsFocused);
@@ -977,11 +960,7 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
 
 const TodoListSection: React.FC<{ weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }> =
   (props: { weekdays: Dayjs[], checkBoxSize: Pixel, timeBlocks: WeekViewDto, updateTimeBlocks: (timeBlocks: WeekViewDto) => void, todoApi: TodoApi }) => {
-    const token = useSelector(selectToken);
     const {weekdays, checkBoxSize, timeBlocks, updateTimeBlocks, todoApi} = props;
-    useEffect(() => {
-      console.log("token", token);
-    }, [token])
 
     return <div
       css={css({

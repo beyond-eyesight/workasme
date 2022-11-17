@@ -247,7 +247,6 @@ const WeekViewSection: React.FC = () => {
 
     weekViewApi.getWeekView(TimeRecord.getFormattedDate(TimeRecord.getStartDate(standardDate), RelativeDay.TODAY), '03:00')
       .then((weekViewDto) => {
-        console.log("hahahah", weekViewDto)
         setTimeBlocks(weekViewDto)
       });
 
@@ -614,14 +613,12 @@ const Todo: React.FC<{ checkBoxSize: Pixel, todoDto: TodoDto, day: Dayjs, index:
         if (todoDto.content === undefined || todoDto.content === '') {
           return
         }
-        console.log("zzz")
         setIsHover(true);
       }}
       onMouseLeave={() => {
         if (todoDto.content === undefined || todoDto.content === '') {
           return
         }
-        console.log("cccc")
         setIsHover(false);
       }}
     >
@@ -662,7 +659,6 @@ async function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, i
     if ((ref.current.defaultValue !== '' &&  ref.current.defaultValue !== undefined) && ((ref.current.value !== '' && ref.current.value !== undefined)) && (ref.current.value !== ref.current.defaultValue)) {
       // 수정
       // alert("should api call modified");
-      console.log("수정수정", todoDto);
       const updatedTodo: TodoDto = await todoApi.updateContent(todoDto.id!, ref.current.value);
       const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
       if (dailyRecord === undefined) {
@@ -689,7 +685,6 @@ async function handleClickOutside(event: any, ref: RefObject<any>, day: Dayjs, i
     // if ((ref.current.value !== ref.current.defaultValue) && (ref.current.value !== '' && ref.current.value !== undefined)) {
     //   const dailyRecord = timeBlocks.dailyRecords.get(TimeRecord.getFormattedDate(day, RelativeDay.TODAY));
     //   if (dailyRecord === undefined) {
-    //     console.log("here!!")
     //     timeBlocks.dailyRecords.set(TimeRecord.getFormattedDate(day, RelativeDay.TODAY), {times: [], todos: [{id: undefined, isFinished: false, content: ref.current.value}]})
     //   } else {
     //     //todo: 이상한데? 왜 여긴 id가 있어...
@@ -804,10 +799,6 @@ const TodoContent: React.FC<{ timeBlocks: WeekViewDto, updateTimeBlocks: (timeBl
       closeButtonBackgroundColor = Colors.theme.main.orgasme;
     } else {
       closeButtonBackgroundColor = Colors.theme.main.work;
-    }
-
-    if (TimeRecord.getFormattedDate(day, RelativeDay.TODAY) === '2022-10-13') {
-      console.log('isHover', isHover, 'isFocus', isFocused)
     }
 
     const onDelete = async (e, day, index, timeBlocks: WeekViewDto, updateTimeBlocks, todoApi: TodoApi) => {

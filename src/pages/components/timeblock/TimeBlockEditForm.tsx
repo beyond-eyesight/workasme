@@ -51,10 +51,6 @@ const onSubmitHandler = async (e, exTimeBlockDto: TimeDto, closeModal: (e) => vo
 
     const [startMonth, startDay, startYear] = startDate.split('.')
     const [endMonth, endDay, endYear] = endDate.split('.')
-
-    console.log("id", id);
-    console.log("title", title)
-    console.log("currentTarget", e.currentTarget);
     const updatedTimeBlock = await timeApi.updateTime(id,
       {
         title: title,
@@ -83,7 +79,6 @@ const onSubmitHandler = async (e, exTimeBlockDto: TimeDto, closeModal: (e) => vo
 
     const formattedDate = exTimeBlockDto.startDateTime.split("T")[0];
     const dailyRecord = timeBlocks.dailyRecords.get(formattedDate);
-    console.log("startDate", startDate);
     if (dailyRecord === undefined) {
       throw Error("이상한데요~");
     }

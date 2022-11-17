@@ -199,7 +199,7 @@ export class TimeRecord {
     if (this.isFirstTime()) {
       const edgeTimeOfDay = this.getEdgeTimeOfDay(savedTimes, standardDate);
       if (edgeTimeOfDay !== undefined) {
-        const endDateTimeOfEdgeTime: moment.Moment = moment(edgeTimeOfDay.endDateTime);
+        const endDateTimeOfEdgeTime: moment.Moment = this.getEndDateTimeOfEdgeTime(edgeTimeOfDay);
         if (endDateTimeOfEdgeTime.isAfter(this.getFirstDateTime())) {
           return new Percentage(endDateTimeOfEdgeTime.diff(this.getFirstDateTime(), 'hours') * 100);
         }
@@ -219,6 +219,10 @@ export class TimeRecord {
     }
 
     throw Error("이상한 상황");
+  }
+
+  private getEndDateTimeOfEdgeTime(edgeTimeOfDay: TimeDto) {
+    return moment(edgeTimeOfDay.endDateTime).isAfter(this.getFirstDateTime().add(1, "days")) ? this.getFirstDateTime().add(1, "days") : moment(edgeTimeOfDay.endDateTime);
   }
 
   private getEndDateTimeOfTimeBlock(timeBlock: TimeDto): moment.Moment {

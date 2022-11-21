@@ -18,11 +18,12 @@ import {signIn as signInAction} from "src/context/redux/signSlice";
 const SignInSection: React.FC = () => {
   const navigate = useNavigate();
   // const dispatch = useDispatch();
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>("");
 
   const userApi = useInjection(UserApi);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(signInAction({accessToken: undefined}))
@@ -41,7 +42,7 @@ const SignInSection: React.FC = () => {
     //   return;
     // });
     //todo: try-catch
-    const accessToken = await userApi.signIn(email, password);
+    const accessToken = await userApi.signIn(username, password);
     if (accessToken === undefined) {
       return;
     }
@@ -75,7 +76,7 @@ const SignInSection: React.FC = () => {
         },
         backgroundColor: "rgba(var(--b3f,250,250,250),1)",
         marginBottom: new Pixel(6).toString()
-      })} value={email} onChange={(event) => {setEmail(event.target.value)}} placeholder={"email"} id={"sign-in-id"}/>
+      })} value={username} onChange={(event) => {setUsername(event.target.value)}} placeholder={"username(user id)"} id={"sign-in-id"}/>
 
       <input css={css({
         width: new Pixel(280).toString(),

@@ -41,6 +41,7 @@ import {useInjection} from "inversify-react";
 import WeekViewApi from "src/api/WeekViewApi";
 import TimeApi from "src/api/TimeApi";
 import TodoApi from "src/api/TodoApi";
+import {useNavigate} from "react-router-dom";
 
 const SelectableComponent = createSelectable(Selectable);
 
@@ -233,6 +234,8 @@ const WeekViewSection: React.FC = () => {
   const weekViewApi = useInjection(WeekViewApi);
   const timeApi = useInjection(TimeApi);
   const todoApi = useInjection(TodoApi)
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
 
   const clearItems = useCallback((e) => {
     if (!isNodeInRoot(e.target, selectableRef)) {
@@ -244,6 +247,12 @@ const WeekViewSection: React.FC = () => {
 
 
   useEffect(() => {
+    if (token === undefined) {
+      navigate("/");
+      return () => {
+        document.removeEventListener('click', clearItems);
+      }
+    }
 
     weekViewApi.getWeekView(TimeRecord.getFormattedDate(TimeRecord.getStartDate(standardDate), RelativeDay.TODAY), '03:00')
       .then((weekViewDto) => {
@@ -722,11 +731,7 @@ function useOutsideAlerter(ref: RefObject<any>, day: Dayjs, index: number, todoD
 
 const TodayButton: React.FC<{setStandardDate: Dispatch<SetStateAction<dayjs.Dayjs>>}> = (props: {setStandardDate: Dispatch<SetStateAction<dayjs.Dayjs>>}) => {
   const {setStandardDate} = props;
-  const dispatch = useDispatch();
   const axiosProvider = container.get<AxiosSupplier>(TYPES.AxiosSupplier);
-  const axiosInstance = axiosProvider.provide()
-
-  const token = useSelector(selectToken);
   return <div css={css({
     display: "flex",
     alignItems: "center",

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import {css, jsx} from "@emotion/react";
@@ -12,6 +12,7 @@ import {container} from "src/context/inversify/container";
 import {TYPES} from "src/context/inversify/types";
 import AxiosSupplier from "src/api/AxiosSupplier";
 import UserApi from "src/api/UserApi";
+import {signIn as signInAction} from "src/context/redux/signSlice";
 
 
 const SignInSection: React.FC = () => {
@@ -21,6 +22,11 @@ const SignInSection: React.FC = () => {
   const [password, setPassword] = useState<string>("");
 
   const userApi = useInjection(UserApi);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(signInAction({accessToken: undefined}))
+  })
 
 
   async function signIn() {
@@ -35,8 +41,11 @@ const SignInSection: React.FC = () => {
     //   return;
     // });
     //todo: try-catch
-    await userApi.signIn(email, password)
-    navigate("/time-track")
+    const accessToken = await userApi.signIn(email, password);
+    if (accessToken === undefined) {
+      return;
+    }
+    navigate("/time-track");
   }
 
   return <div>

@@ -44,7 +44,10 @@ const SignUpSection: React.FC = () => {
 
     try {
       await userApi.signUp(username, email, firstName, lastName, password);
-      await userApi.signIn(username, password);
+      const accessToken = await userApi.signIn(username, password);
+      if (accessToken === undefined) {
+        return;
+      }
       navigate("/time-track")
       //todo: 이거 로직 빼기
     } catch (e: any) {

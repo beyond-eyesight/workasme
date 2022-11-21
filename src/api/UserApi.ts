@@ -45,7 +45,7 @@ class UserApi {
     }
   }
 
-  public async signIn(email: string, password: string):Promise<void> {
+  public async signIn(email: string, password: string):Promise<string | undefined> {
     try {
       const response = await this.axiosInstance.post(`/iam/realms/bintegration/protocol/openid-connect/token`, {
         "username": email,
@@ -54,13 +54,14 @@ class UserApi {
       store.dispatch(signInAction({accessToken: response.data.access_token}))
       // this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
       localStorage.setItem("refresh_token", response.data.refresh_token)
-
+      return response.data.access_token;
     } catch (e: any) {
       // console.clear();
       if (e.response) {
         console.warn("error", e.response.data.message);
         const status = e.response.status;
         if (status === 401) {
+          console.clear();
           const code: string = e.response.data.code;
           if (code.includes("credentials")) {
             alert("invalid email or password")

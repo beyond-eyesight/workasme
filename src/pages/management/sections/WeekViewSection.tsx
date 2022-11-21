@@ -264,7 +264,7 @@ const WeekViewSection: React.FC = () => {
     return () => {
       document.removeEventListener('click', clearItems);
     }
-  }, [standardDate, weekViewApi, clearItems])
+  }, [standardDate, weekViewApi, clearItems, navigate, token])
 
   const showModal = (selectedKeys: number[]) => {
     if (selectedKeys.length === 0) {

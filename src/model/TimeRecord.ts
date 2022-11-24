@@ -99,6 +99,7 @@ export class TimeRecord {
   }
 
   public match(savedTimes: WeekViewDto, standardDate: Dayjs) {
+
     if (this.isFirstTime()) {
       const edgeTimeOfDay = this.getEdgeTimeOfDay(savedTimes, standardDate);
       if (edgeTimeOfDay !== undefined) {
@@ -130,16 +131,27 @@ export class TimeRecord {
     let currentDate = this.getCurrentDate();
     const firstDateOfThisWeek: Dayjs = TimeRecord.getFirstDateOfThisWeek(standardDate);
     while ((TimeRecord.getFormattedDate(currentDate, RelativeDay.TODAY) !== TimeRecord.getFormattedDate(firstDateOfThisWeek, RelativeDay.TODAY)) && firstDateOfThisWeek.isBefore(currentDate.add(1, "days"))) {
-      const formattedCurrentDate: string = TimeRecord.getFormattedDate(currentDate, RelativeDay.YESTERDAY);
 
+      const formattedYesterday: string = TimeRecord.getFormattedDate(currentDate, RelativeDay.YESTERDAY);
+      const formattedToday: string = TimeRecord.getFormattedDate(currentDate, RelativeDay.TODAY);
 
-      let dailyRecord = savedTimes.dailyRecords.get(formattedCurrentDate);
-      if (dailyRecord === undefined || dailyRecord.times.length === 0) {
+      let yesterdayRecord = savedTimes.dailyRecords.get(formattedYesterday);
+      const todayRecord = savedTimes.dailyRecords.get(formattedToday);
+      if ((yesterdayRecord === undefined || yesterdayRecord.times.length === 0) && (todayRecord === undefined || todayRecord.times.length === 0)) {
         currentDate = currentDate.subtract(1, 'days');
         continue;
       }
 
-      for (let timeOfDate of dailyRecord.times) {
+      let comparingTimes: TimeDto[] = [];
+      if (yesterdayRecord !== undefined) {
+        comparingTimes = comparingTimes.concat(yesterdayRecord.times);
+      }
+      if (todayRecord !== undefined) {
+        comparingTimes = comparingTimes.concat(todayRecord.times);
+      }
+
+
+      for (let timeOfDate of comparingTimes) {
         if (moment(timeOfDate.startDateTime).isBefore(this.getFirstDateTime())
           && moment(timeOfDate.endDateTime).isAfter(this.getFirstDateTime())
         ) {
